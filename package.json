@@ -1,0 +1,36 @@
+{
+  "name": "@feugene/layer-request",
+  "version": "0.0.1",
+  "description": "Request with a config layers",
+  "main": "dist/index.js",
+  "keywords": [
+    "request"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/efureev/layer-request",
+  "scripts": {
+    "code-format": "prettier --config ./.prettierrc.js --write ./src/**/*.{js,vue}",
+    "lint": "eslint --fix ./src/**/*",
+    "prettier": "prettier --write ./src/** ./tests/**",
+    "test": "mocha -r esm -r @babel/register --reporter=landing tests"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/register": "^7.13.8",
+    "eslint": "7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-sonarjs": "^0.6.0",
+    "eslint-plugin-unicorn": "^28.0.2",
+    "esm": "3.2.25",
+    "mocha": "^8.3.2",
+    "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "@feugene/mu": "^2.21.0",
+    "axios": "^0.21.1"
+  },
+  "typings": "./index.d.ts"
+}
