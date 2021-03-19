@@ -1,4 +1,4 @@
-name: 'CI: µ'
+name: 'CI: request with layers config'
 
 on: [push]
 
