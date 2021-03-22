@@ -1,59 +1,22 @@
 import axios from 'axios'
 
 import isArray from '@feugene/mu/src/is/isArray'
+import isFunction from '@feugene/mu/src/is/isFunction'
 import { buildLayerConfigManager } from './ConfigLayerManager'
-
-/*
- const buildResponseWrapper = (config) => {
- return isFunction(config.responseWrapper)
- ? config.responseWrapper(config)
- : defaultResponseWrapper(config.responseWrapper || {})
- }*/
-
-function buildAxios(instance, config) {
-  instance.axios = axios.create(config.requestConfig)
-  instance.axios.wrapper = instance
-  //instance.axios.reconfigure = instance.buildReconfigureFn(instance)
-}
-
-/*function buildConfig(config, instance) {
- if (config.isResponseWrap) {
- config.responseWrapper = buildResponseWrapper(config)
-
- if (isFunction(config.responseWrapper.fn)) {
- if (!instance.fillWrapperer) {
- config.responseWrapper.fn(instance)
- instance.fillWrapperer = true
- }
- }
- } else {
- config.responseWrapper = null
- instance.fillWrapperer = false
- }
- }*/
 
 /**
  * @param {Request} instance
- * @param {String} config
- * @return {AxiosInstance}
  */
-const defaultBuilder = (instance, config) => {
-  buildAxios(instance, config)
-  // buildConfig(instance.config, instance)
-  /*
+function buildAxios(instance) {
+  instance.axios = axios.create(instance.selectConfig.requestConfig)
+  instance.axios.wrapper = instance
+}
 
-   if (instance.config.enabledCORS) {
-   instance.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-   }
-   */
-
-  /*
-   if (isFunction(instance.config.afterBuilding)) {
-   (instance.config.afterBuilding)(instance)
-   }
-   */
-
-  return instance.axios
+/**
+ * @param {Request} instance
+ */
+const defaultBuilder = (instance) => {
+  buildAxios(instance)
 }
 
 export default class Request {
@@ -69,11 +32,14 @@ export default class Request {
   }
 
   build(layer) {
-    const config = this.manager.getLayer(layer, true)
+    /**
+     * @type {ConfigLayer}
+     */
+    this.selectConfig = this.manager.getLayer(layer, true)
 
-    this.builder(this, config)
+    this.builder(this)
 
-    this.applyInterceptors(config.interceptors)
+    this.applyInterceptors(this.selectConfig.interceptors)
 
     return this.axios
   }
@@ -87,16 +53,16 @@ export default class Request {
   }
 
   normalizeInterceptors(callback) {
-    const cb = callback(this.config)
+    const cb = callback(this.selectConfig)
     let successCb
-    let errorCb
+    let errorCb = null
 
     if (isArray(cb) && cb.length > 1) {
       successCb = cb[0]
-      errorCb = isFunction(cb[1]) ? cb[1] : (error) => Promise.reject(error)
+      errorCb = isFunction(cb[1]) ? cb[1] : null //(error) => Promise.reject(error)
     } else {
       successCb = cb
-      errorCb = (error) => Promise.reject(error)
+      errorCb = null //(error) => Promise.reject(error)
     }
 
     return [successCb, errorCb]
