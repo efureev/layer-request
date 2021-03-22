@@ -14,6 +14,7 @@ class ConfigLayer {
 
     this.name = null
     this.from = null
+    this.extra = {}
 
     this.interceptors = merge(
       {

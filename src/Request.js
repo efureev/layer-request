@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import isArray from '@feugene/mu/src/is/isArray'
+import isObject from '@feugene/mu/src/is/isObject'
 import isFunction from '@feugene/mu/src/is/isFunction'
 import { buildLayerConfigManager } from './ConfigLayerManager'
 
@@ -31,11 +32,14 @@ export default class Request {
     return this
   }
 
-  build(layer) {
+  build(layer, extra) {
     /**
      * @type {ConfigLayer}
      */
-    this.selectConfig = this.manager.getLayer(layer, true)
+    this.selectConfig = this.manager.getLayer(layer, true).clone()
+    if (isObject(extra)) {
+      this.selectConfig.extra = extra
+    }
 
     this.builder(this)
 
@@ -45,8 +49,8 @@ export default class Request {
   }
 
   reset() {
+    this.selectConfig = null
     this.builder = defaultBuilder
-
     this.axios = null
 
     return this
