@@ -33,6 +33,9 @@ export default class Request {
   }
 
   build(layer, extra) {
+    if (!layer) {
+      layer = this.manager.list().shift()
+    }
     /**
      * @type {ConfigLayer}
      */

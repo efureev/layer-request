@@ -144,7 +144,7 @@ export class ConfigLayerManager {
 const manager = new ConfigLayerManager()
 
 export function buildLayerConfigManager() {
-  manager.addLayer(new ConfigLayer())
+  // manager.addLayer(new ConfigLayer())
 
   return manager
 }
