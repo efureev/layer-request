@@ -41,7 +41,10 @@ export default class Request {
      */
     this.selectConfig = this.manager.getLayer(layer, true).clone()
     if (isObject(extra)) {
-      this.selectConfig.extra = extra
+      this.selectConfig.extra = {
+        ...this.selectConfig.extra,
+        ...extra,
+      }
     }
 
     this.builder(this)

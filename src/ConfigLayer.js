@@ -9,12 +9,12 @@ function buildBaseConfig() {
 }
 
 class ConfigLayer {
-  constructor({ requestConfig, interceptors } = {}) {
+  constructor({ requestConfig, interceptors, extra } = {}) {
     this.requestConfig = requestConfig || buildBaseConfig()
 
     this.name = null
     this.from = null
-    this.extra = {}
+    this.extra = extra || {}
 
     this.interceptors = merge(
       {
