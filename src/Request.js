@@ -36,14 +36,18 @@ export default class Request {
     return this
   }
 
+  /**
+   * @param {String|ConfigLayer} layer
+   * @param {Object} extra
+   * @return {AxiosInstance}
+   */
   build(layer, extra) {
     if (!layer) {
       layer = this.manager.list().shift()
     }
-    /**
-     * @type {ConfigLayer}
-     */
+
     this.selectConfig = this.manager.getLayer(layer, true).clone()
+
     if (isObject(extra)) {
       this.selectConfig.extra = {
         ...this.selectConfig.extra,

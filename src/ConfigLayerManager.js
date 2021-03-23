@@ -43,15 +43,20 @@ export class ConfigLayerManager {
   /**
    * Return config layer by it's name
    *
-   * @param {String} name
+   * @param {String|ConfigLayer} name
    * @param {Boolean} throws
    * @return {ConfigLayer|null}
    */
   getLayer(name, throws = false) {
+    if (name instanceof ConfigLayer) {
+      return name
+    }
+
     const l = layers.get(name)
     if (l) {
       return l
     }
+
     if (throws) {
       throw Error(`Config Layer with name '${name}' not found`)
     }
