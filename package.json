@@ -1,6 +1,6 @@
 {
   "name": "@feugene/layer-request",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "Request with a config layers",
   "main": "dist/index.js",
   "keywords": [
