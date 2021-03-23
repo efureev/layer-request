@@ -9,7 +9,11 @@ import { buildLayerConfigManager } from './ConfigLayerManager'
  * @param {Request} instance
  */
 function buildAxios(instance) {
-  instance.axios = axios.create(instance.selectConfig.requestConfig)
+  instance.cancelToken = axios.CancelToken.source()
+  instance.axios = axios.create({
+    cancelToken: instance.cancelToken.token,
+    ...instance.selectConfig.requestConfig,
+  })
   instance.axios.wrapper = instance
 }
 
