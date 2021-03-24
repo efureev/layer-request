@@ -46,7 +46,9 @@ export default class Request {
       layer = this.manager.list().shift()
     }
 
-    this.selectConfig = this.manager.getLayer(layer, true).clone()
+    const sc = this.manager.getLayer(layer, true)
+    this.selectConfig = sc.clone()
+    this.selectConfig.name = sc.name
 
     if (isObject(extra)) {
       this.selectConfig.extra = {
