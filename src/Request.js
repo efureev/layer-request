@@ -71,7 +71,7 @@ export default class Request {
   }
 
   normalizeInterceptors(callback) {
-    const cb = callback(this.selectConfig)
+    const cb = callback(this.selectConfig, this.extra)
     let successCb
     let errorCb = null
 

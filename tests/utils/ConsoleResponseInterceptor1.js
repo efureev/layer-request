@@ -1,4 +1,4 @@
-const ConsoleResponseInterceptor1 = (options) => (response) => {
+const ConsoleResponseInterceptor1 = (options, extra) => (response) => {
   console.log('run ConsoleResponseInterceptor 1')
 
   return response

@@ -90,19 +90,28 @@ export class ConfigLayerManager {
    * @return {ConfigLayer}
    */
   addCopyFrom(fromLayer, fn, newLayer = null) {
-    if (fromLayer instanceof ConfigLayer) {
-      fromLayer = fromLayer.name
-    }
-    const p = this.getLayer(fromLayer, true)
-    const t = p.clone()
+    const copy = this.copyFrom(fromLayer, fn)
 
-    t.from = fromLayer
+    this.addLayer(copy, newLayer)
 
-    fn(t)
+    return copy
+  }
 
-    this.addLayer(t, newLayer)
+  /**
+   * Copy layer from existing layer and set up it
+   *
+   * @param {String|ConfigLayer} fromLayer
+   * @param {Function<(ConfigLayer)>} fn
+   * @return {ConfigLayer}
+   */
+  copyFrom(fromLayer, fn) {
+    const copy = this.copyLayer(fromLayer)
 
-    return t
+    copy.from = fromLayer
+
+    fn(copy)
+
+    return copy
   }
 
   /**

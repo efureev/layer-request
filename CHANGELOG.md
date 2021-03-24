@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning][semver].
 
 ## [unreleased]
 
+## [0.1.1] - 2021-03-24
+
+### Added
+
+- Pre-release
+
 ## [0.0.1] - 2021-03-19
 
 ### Added
@@ -14,6 +20,7 @@ and this project adheres to [Semantic Versioning][semver].
 - Init repo
 
 [unreleased]: https://github.com/efureev/layer-request/compare/v0.0.1...HEAD
+[0.1.1]: https://github.com/efureev/layer-request/compare/v0.1.1...v0.0.1
 [0.0.1]: https://github.com/efureev/layer-request/releases/tag/v0.0.1
 
 [keepachangelog]:https://keepachangelog.com/en/1.1.0/

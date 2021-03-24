@@ -1,4 +1,4 @@
-const ConsoleInterceptor2 = (options) => (config) => {
+const ConsoleInterceptor2 = (options, extra) => (config) => {
   console.log('run ConsoleInterceptor 2')
 }
 
