@@ -48,13 +48,12 @@ export default class Request {
 
     const sc = this.manager.getLayer(layer, true)
     this.selectConfig = sc.clone()
-    this.selectConfig.name = sc.name
 
-    if (isObject(extra)) {
-      this.selectConfig.extra = {
-        ...this.selectConfig.extra,
-        ...extra,
-      }
+    this.selectConfig.name = sc.name
+    this.selectConfig.from = sc.from
+    this.selectConfig.extra = {
+      ...sc.extra,
+      ...(isObject(extra) ? extra : {}),
     }
 
     this.builder(this)
