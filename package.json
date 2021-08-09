@@ -15,21 +15,21 @@
     "test": "mocha -r esm -r @babel/register --reporter=landing tests"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
-    "@babel/preset-env": "^7.13.10",
-    "@babel/register": "^7.13.8",
-    "eslint": "7.22.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-sonarjs": "^0.6.0",
-    "eslint-plugin-unicorn": "^28.0.2",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/register": "^7.14.5",
+    "eslint": "7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-sonarjs": "^0.9.1",
+    "eslint-plugin-unicorn": "^35.0.0",
     "esm": "3.2.25",
-    "mocha": "^8.3.2",
-    "prettier": "^2.2.1"
+    "mocha": "^8.4.0",
+    "prettier": "^2.3.2"
   },
   "dependencies": {
-    "@feugene/mu": "^2.21.0",
+    "@feugene/mu": "^2.21.2",
     "axios": "^0.21.1"
   },
   "typings": "./index.d.ts"
