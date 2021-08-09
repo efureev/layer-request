@@ -93,6 +93,9 @@ export default class Request {
    */
   registerInterceptors(target, ...source) {
     source.forEach((callback) => {
+      if (!isFunction(callback)) {
+        return
+      }
       target.use(...this.normalizeInterceptors(callback))
     })
   }
