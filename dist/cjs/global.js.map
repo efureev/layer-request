@@ -1,0 +1,1 @@
+{"version":3,"file":"global.js","names":[],"sources":["../../src/global.ts"],"sourcesContent":["export type Nullable<T> = T | null\nexport type Recordable<T = any> = Record<string, T>\n"],"mappings":""}
