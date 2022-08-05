@@ -185,8 +185,9 @@ var LayerRequest = /*#__PURE__*/function () {
 
 exports.default = LayerRequest;
 
-function buildLayerRequest(manager) {
-  var extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : o();
+function buildLayerRequest() {
+  var extra = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : o();
+  var manager = arguments.length > 1 ? arguments[1] : undefined;
   return new LayerRequest(manager, extra);
 }
 //# sourceMappingURL=LayerRequest.js.map

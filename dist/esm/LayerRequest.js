@@ -118,7 +118,7 @@ export default class LayerRequest {
   }
 
 }
-export function buildLayerRequest(manager, extra = o()) {
+export function buildLayerRequest(extra = o(), manager) {
   return new LayerRequest(manager, extra);
 }
 //# sourceMappingURL=LayerRequest.js.map

@@ -27,6 +27,6 @@ export default class LayerRequest {
     setAxiosInstances(instances: AxiosInstances): void;
     getAxios(): AxiosInstance | undefined;
 }
-export declare function buildLayerRequest(manager?: LayerConfigManager, extra?: ExtraProperties): LayerRequest;
+export declare function buildLayerRequest(extra?: ExtraProperties, manager?: LayerConfigManager): LayerRequest;
 export {};
 //# sourceMappingURL=LayerRequest.d.ts.map
