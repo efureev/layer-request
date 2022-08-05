@@ -35,7 +35,6 @@ export default class LayerConfig {
 
   protected name?: string
   public from?: string
-  protected parent?: string
 
   public extra: ExtraProperties = Object.create(null)
 
@@ -52,20 +51,16 @@ export default class LayerConfig {
         request: [],
         response: [],
       },
-      <ConfigLayerInterceptors>properties?.interceptors
+      <ConfigLayerInterceptors>properties?.interceptors,
     ) as ConfigLayerInterceptors
-  }
-
-  public toConfigObject(): ConfigLayerConstructor {
-    return {
-      axiosRequestConfig: this.axiosRequestConfig,
-      interceptors: this.interceptors,
-      from: this.from,
-    }
   }
 
   public clone(): LayerConfig {
     return new LayerConfig(clone(this.toConfigObject()))
+  }
+
+  public getName(): string {
+    return <string>this.name
   }
 
   public setName(name?: string): void {
@@ -80,7 +75,12 @@ export default class LayerConfig {
     this.name = name
   }
 
-  public getName(): string {
-    return <string>this.name
+  protected toConfigObject(): ConfigLayerConstructor {
+    return {
+      axiosRequestConfig: this.axiosRequestConfig,
+      interceptors: this.interceptors,
+      from: this.from,
+    }
   }
+
 }

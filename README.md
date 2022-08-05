@@ -49,7 +49,8 @@ const layerApi = globalLayerConfigManager.addLayer(apiRequestConfig, 'api')
 //...
 const layerRequest = buildLayerRequest()
 const request = layerRequest.useConfig('api')
-request.get('users').then(resp => {})  // --> GET '/api/users'
+request.get('users').then(resp => {
+})  // --> GET '/api/users'
 
 // it's all!
 // if you want to extent you config:
@@ -62,8 +63,44 @@ globalLayerConfigManager.addCopyFrom(layerApi, (targetConfig, sourceConfig) => {
 
 // and then call it:
 const request = layerRequest.useConfig('v2')
-request.get('users').then(resp => {})  // --> GET '/api/v2/users'
+request.get('users')  // --> GET '/api/v2/users'
 ```
+
+## Unit Methods
+
+### LayerConfig
+
+It's Axios config container
+
+- clone: Clone a LayerConfig
+- getName: Returns LayerConfig's name
+- setName: Set a name to a LayerConfig
+-
+
+### LayerConfigManager
+
+It's a LayerConfig manager
+
+- addLayer: Add LayerConfig to the container
+- getLayer: Returns a LayerConfig
+- createLayer: Creates a new LayerConfig
+- copyLayer: Copy & return a LayerConfig from an existing LayerConfig
+- copyLayerAndSetup: Copy & return a LayerConfig from an existing LayerConfig and set it up
+- addCopyFrom: Copy, set it up and add into the container
+- updateLayer: Updates currently defined LayerConfig
+- all: Returns the all LayerConfigs
+- list: Returns the all LayerConfig's names
+- reset: Clear the container
+
+### LayerRequest
+
+It's a Request builder
+
+- useConfig: apply some defined in the manager LayerConfig and return the Axios instance
+- reset: reset all properties
+- getAxios: returns the Axios instance
+
+## Examples
 
 Basic, without config. This request already contains first Config Layer with name `/`:
 
