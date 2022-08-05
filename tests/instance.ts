@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { buildLayerRequest, LayerConfig, LayerConfigManager, globalLayerConfigManager, LayerRequest } from '../src'
+import { buildLayerRequest, globalLayerConfigManager, LayerConfig, LayerConfigManager, LayerRequest } from '../src'
 
 import { isEmpty, isObject } from '@feugene/mu'
 import ConsoleResponseInterceptor1 from './utils/ConsoleResponseInterceptor1'
@@ -28,7 +28,7 @@ describe('create request by default', () => {
     it('creating with empty layers', () => {
       globalLayerConfigManager.reset()
 
-      const request = buildLayerRequest(globalLayerConfigManager, { test: 1 })
+      const request = buildLayerRequest({ test: 1 })
 
       assert.strictEqual(true, request instanceof LayerRequest)
       assert.strictEqual(true, request.getAxios() == null)
@@ -45,7 +45,7 @@ describe('create request by default', () => {
 
   it('creating layers', () => {
     globalLayerConfigManager.reset()
-    const r = buildLayerRequest(globalLayerConfigManager)
+    const r = new LayerRequest()
 
     const layoutApi = r.manager.addLayer((cm) => cm.createLayer({
       axiosRequestConfig: {

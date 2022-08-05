@@ -36,7 +36,7 @@ flowchart LR
 Add your config and do a request:
 
 ```js
-import { buildLayerRequest, globalLayerConfigManager } from '@feugene/layer-request'
+import { LayerRequest, globalLayerConfigManager } from '@feugene/layer-request'
 
 const apiRequestConfig = {
   axiosRequestConfig: {
@@ -47,7 +47,7 @@ const apiRequestConfig = {
 const layerApi = globalLayerConfigManager.addLayer(apiRequestConfig, 'api')
 
 //...
-const layerRequest = buildLayerRequest()
+const layerRequest = new LayerRequest()
 const request = layerRequest.useConfig('api')
 request.get('users').then(resp => {
 })  // --> GET '/api/users'
@@ -105,9 +105,9 @@ It's a Request builder
 Basic, without config. This request already contains first Config Layer with name `/`:
 
 ```js
-import { buildLayerRequest } from '@feugene/layer-request'
+import { LayerRequest } from '@feugene/layer-request'
 
-const request = buildLayerRequest()
+const request = new LayerRequest()
 ```
 
 Basic, with empty config layer manager or custom config:
