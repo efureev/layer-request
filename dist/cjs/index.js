@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var _exportNames = {
-  layerConfigManager: true,
+  globalLayerConfigManager: true,
   LayerConfig: true,
   LayerRequest: true
 };
@@ -22,7 +22,7 @@ Object.defineProperty(exports, "LayerRequest", {
     return _LayerRequest.default;
   }
 });
-Object.defineProperty(exports, "layerConfigManager", {
+Object.defineProperty(exports, "globalLayerConfigManager", {
   enumerable: true,
   get: function get() {
     return _LayerConfigManager.default;

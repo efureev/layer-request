@@ -23,16 +23,12 @@ export default class LayerConfig {
     }, properties?.interceptors);
   }
 
-  toConfigObject() {
-    return {
-      axiosRequestConfig: this.axiosRequestConfig,
-      interceptors: this.interceptors,
-      from: this.from
-    };
-  }
-
   clone() {
     return new LayerConfig(clone(this.toConfigObject()));
+  }
+
+  getName() {
+    return this.name;
   }
 
   setName(name) {
@@ -47,8 +43,12 @@ export default class LayerConfig {
     this.name = name;
   }
 
-  getName() {
-    return this.name;
+  toConfigObject() {
+    return {
+      axiosRequestConfig: this.axiosRequestConfig,
+      interceptors: this.interceptors,
+      from: this.from
+    };
   }
 
 }

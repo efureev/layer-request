@@ -41,7 +41,7 @@ export class LayerConfigManager {
   }
 
   list() {
-    return Array.from(layers.keys()); //.map(name => name)
+    return Array.from(layers.keys());
   }
 
   all() {
@@ -58,7 +58,7 @@ export class LayerConfigManager {
 
 
   addCopyFrom(fromLayer, fn, newLayer) {
-    const copy = this.copyFrom(fromLayer, fn);
+    const copy = this.copyLayerAndSetup(fromLayer, fn);
     return this.addLayer(copy, newLayer);
   }
   /**
@@ -66,7 +66,7 @@ export class LayerConfigManager {
    */
 
 
-  copyFrom(fromLayer, fn) {
+  copyLayerAndSetup(fromLayer, fn) {
     fromLayer = this.getLayer(fromLayer, true);
     const layerCopy = this.copyLayer(fromLayer);
     layerCopy.from = fromLayer.getName();

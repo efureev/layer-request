@@ -43,18 +43,14 @@ var LayerConfig = /*#__PURE__*/function () {
   }
 
   _createClass(LayerConfig, [{
-    key: "toConfigObject",
-    value: function toConfigObject() {
-      return {
-        axiosRequestConfig: this.axiosRequestConfig,
-        interceptors: this.interceptors,
-        from: this.from
-      };
-    }
-  }, {
     key: "clone",
     value: function clone() {
       return new LayerConfig((0, _mu.clone)(this.toConfigObject()));
+    }
+  }, {
+    key: "getName",
+    value: function getName() {
+      return this.name;
     }
   }, {
     key: "setName",
@@ -70,9 +66,13 @@ var LayerConfig = /*#__PURE__*/function () {
       this.name = name;
     }
   }, {
-    key: "getName",
-    value: function getName() {
-      return this.name;
+    key: "toConfigObject",
+    value: function toConfigObject() {
+      return {
+        axiosRequestConfig: this.axiosRequestConfig,
+        interceptors: this.interceptors,
+        from: this.from
+      };
     }
   }]);
 

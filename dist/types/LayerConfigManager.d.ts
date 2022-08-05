@@ -19,7 +19,7 @@ export declare class LayerConfigManager {
     /**
      * Copy a LayerConfig from an existing LayerConfig and set it up
      */
-    copyFrom(fromLayer: LayerConfigStringable, fn: CopyLayerConfigFn): LayerConfig;
+    copyLayerAndSetup(fromLayer: LayerConfigStringable, fn: CopyLayerConfigFn): LayerConfig;
     /**
      * Copy a LayerConfig from an existing LayerConfig
      */

@@ -69,7 +69,7 @@ var LayerConfigManager = /*#__PURE__*/function () {
   }, {
     key: "list",
     value: function list() {
-      return Array.from(layers.keys()); //.map(name => name)
+      return Array.from(layers.keys());
     }
   }, {
     key: "all",
@@ -89,7 +89,7 @@ var LayerConfigManager = /*#__PURE__*/function () {
   }, {
     key: "addCopyFrom",
     value: function addCopyFrom(fromLayer, fn, newLayer) {
-      var copy = this.copyFrom(fromLayer, fn);
+      var copy = this.copyLayerAndSetup(fromLayer, fn);
       return this.addLayer(copy, newLayer);
     }
     /**
@@ -97,8 +97,8 @@ var LayerConfigManager = /*#__PURE__*/function () {
      */
 
   }, {
-    key: "copyFrom",
-    value: function copyFrom(fromLayer, fn) {
+    key: "copyLayerAndSetup",
+    value: function copyLayerAndSetup(fromLayer, fn) {
       fromLayer = this.getLayer(fromLayer, true);
       var layerCopy = this.copyLayer(fromLayer);
       layerCopy.from = fromLayer.getName();

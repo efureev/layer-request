@@ -3,7 +3,7 @@ import type { Recordable } from './global';
 export declare type InterceptorSuccessParam<T> = (value: T) => T | Promise<T>;
 export declare type InterceptorErrorParam = ((error: any) => any) | undefined;
 export declare type InterceptorNormal<T> = [InterceptorSuccessParam<T>, InterceptorErrorParam];
-export declare type InterceptorType<T> = (InterceptorSuccessParam<T>) | InterceptorNormal<T>;
+export declare type InterceptorType<T> = InterceptorSuccessParam<T> | InterceptorNormal<T>;
 export declare type InterceptorFn<T> = (layer: LayerConfig, extra: ExtraProperties) => InterceptorType<T>;
 export interface ConfigLayerInterceptors {
     request: InterceptorFn<AxiosRequestConfig>[];
@@ -20,13 +20,12 @@ export default class LayerConfig {
     axiosRequestConfig: AxiosRequestConfig;
     protected name?: string;
     from?: string;
-    protected parent?: string;
     extra: ExtraProperties;
     interceptors: ConfigLayerInterceptors;
     constructor(properties?: ConfigLayerConstructor);
-    toConfigObject(): ConfigLayerConstructor;
     clone(): LayerConfig;
-    setName(name?: string): void;
     getName(): string;
+    setName(name?: string): void;
+    protected toConfigObject(): ConfigLayerConstructor;
 }
 //# sourceMappingURL=LayerConfig.d.ts.map
