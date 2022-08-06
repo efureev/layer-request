@@ -18,14 +18,16 @@ export declare type ExtraProperties = Recordable;
 export declare type LayerConfigStringable = LayerConfig | string;
 export default class LayerConfig {
     axiosRequestConfig: AxiosRequestConfig;
-    protected name?: string;
+    private name?;
     from?: string;
-    extra: ExtraProperties;
+    private extra;
     interceptors: ConfigLayerInterceptors;
     constructor(properties?: ConfigLayerConstructor);
     clone(): LayerConfig;
     getName(): string;
     setName(name?: string): void;
     protected toConfigObject(): ConfigLayerConstructor;
+    getExtra(key?: string): ExtraProperties | any;
+    setExtra(data: ExtraProperties | string, value?: any): void;
 }
 //# sourceMappingURL=LayerConfig.d.ts.map

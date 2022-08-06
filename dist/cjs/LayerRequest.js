@@ -42,30 +42,25 @@ var o = function o() {
   return Object.create(null);
 };
 
-var buildAxios = function buildAxios(instance) {
-  var _instance$selectedCon;
+var buildAxios = function buildAxios() {
+  var axiosRequestConfig = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : o();
 
   var cancelToken = _axios.default.CancelToken.source();
 
   var a = _axios.default.create(_objectSpread({
     cancelToken: cancelToken.token
-  }, ((_instance$selectedCon = instance.selectedConfig) === null || _instance$selectedCon === void 0 ? void 0 : _instance$selectedCon.axiosRequestConfig) || o())); // @ts-ignore
+  }, axiosRequestConfig));
 
-
-  a.wrapper = instance;
-  var ai = {
+  return {
     cancelToken: cancelToken,
     axios: a
   };
-  instance.setAxiosInstances(ai);
 };
-/**
- * @param {LayerRequest} instance
- */
-
 
 var defaultBuilder = function defaultBuilder(instance) {
-  buildAxios(instance);
+  var _instance$selectedCon;
+
+  instance.setAxiosInstances(buildAxios((_instance$selectedCon = instance.selectedConfig) === null || _instance$selectedCon === void 0 ? void 0 : _instance$selectedCon.axiosRequestConfig));
 };
 
 var LayerRequest = /*#__PURE__*/function () {
@@ -97,10 +92,14 @@ var LayerRequest = /*#__PURE__*/function () {
         layer = layerName;
       }
 
-      var sc = this.manager.getLayer(layer, true);
-      this.selectedConfig = sc.clone();
-      this.selectedConfig.setName(sc.getName());
-      this.selectedConfig.extra = _objectSpread(_objectSpread({}, sc.extra), (0, _mu.isObject)(extra) ? extra : o());
+      var currentLayer = this.manager.getLayer(layer, true);
+      this.selectedConfig = currentLayer.clone();
+      this.selectedConfig.setName(currentLayer.getName());
+
+      if ((0, _mu.isObject)(extra)) {
+        this.selectedConfig.setExtra(currentLayer.getExtra());
+      }
+
       this.builder(this);
       this.applyInterceptors(this.selectedConfig.interceptors);
       return this.axiosInstances.axios;
@@ -171,6 +170,12 @@ var LayerRequest = /*#__PURE__*/function () {
   }, {
     key: "setAxiosInstances",
     value: function setAxiosInstances(instances) {
+      if (!instances.axios) {
+        throw Error('You should create Axios instance');
+      } // @ts-ignore
+
+
+      instances.axios.$layerRequest = this;
       this.axiosInstances = instances;
     }
   }, {

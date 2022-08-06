@@ -4,27 +4,20 @@ import layerConfigManager from './LayerConfigManager';
 
 const o = () => Object.create(null);
 
-const buildAxios = instance => {
+const buildAxios = (axiosRequestConfig = o()) => {
   const cancelToken = axios.CancelToken.source();
   const a = axios.create({
     cancelToken: cancelToken.token,
-    ...(instance.selectedConfig?.axiosRequestConfig || o())
-  }); // @ts-ignore
-
-  a.wrapper = instance;
-  const ai = {
+    ...axiosRequestConfig
+  });
+  return {
     cancelToken,
     axios: a
   };
-  instance.setAxiosInstances(ai);
 };
-/**
- * @param {LayerRequest} instance
- */
-
 
 const defaultBuilder = instance => {
-  buildAxios(instance);
+  instance.setAxiosInstances(buildAxios(instance.selectedConfig?.axiosRequestConfig));
 };
 
 export default class LayerRequest {
@@ -47,12 +40,14 @@ export default class LayerRequest {
       layer = layerName;
     }
 
-    const sc = this.manager.getLayer(layer, true);
-    this.selectedConfig = sc.clone();
-    this.selectedConfig.setName(sc.getName());
-    this.selectedConfig.extra = { ...sc.extra,
-      ...(isObject(extra) ? extra : o())
-    };
+    const currentLayer = this.manager.getLayer(layer, true);
+    this.selectedConfig = currentLayer.clone();
+    this.selectedConfig.setName(currentLayer.getName());
+
+    if (isObject(extra)) {
+      this.selectedConfig.setExtra(currentLayer.getExtra());
+    }
+
     this.builder(this);
     this.applyInterceptors(this.selectedConfig.interceptors);
     return this.axiosInstances.axios;
@@ -110,6 +105,12 @@ export default class LayerRequest {
   }
 
   setAxiosInstances(instances) {
+    if (!instances.axios) {
+      throw Error('You should create Axios instance');
+    } // @ts-ignore
+
+
+    instances.axios.$layerRequest = this;
     this.axiosInstances = instances;
   }
 

@@ -51,5 +51,21 @@ export default class LayerConfig {
     };
   }
 
+  getExtra(key) {
+    return key ? this.extra[key] : this.extra;
+  }
+
+  setExtra(data, value) {
+    if (typeof data === 'string') {
+      const e = Object.create(null);
+      e[data] = value;
+      data = e;
+    }
+
+    this.extra = { ...this.extra,
+      ...data
+    };
+  }
+
 }
 //# sourceMappingURL=LayerConfig.js.map

@@ -2,7 +2,7 @@ import type { AxiosRequestConfig } from 'axios';
 import type { LayerConfigStringable } from './LayerConfig';
 import LayerConfig, { ConfigLayerConstructor } from './LayerConfig';
 import type { Nullable } from './global';
-declare type CreateLayerConfigFunction = (manager: LayerConfigManager) => AxiosRequestConfig | LayerConfig;
+export declare type CreateLayerConfigFunction = (manager: LayerConfigManager) => AxiosRequestConfig | LayerConfig;
 declare type CreateLayerConfig = AxiosRequestConfig | LayerConfig | CreateLayerConfigFunction;
 declare type ModifyLayerConfigFn = (l: LayerConfig) => void;
 declare type CopyLayerConfigFn = (target: LayerConfig, source: LayerConfig) => void;
