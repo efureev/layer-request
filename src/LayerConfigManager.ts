@@ -6,7 +6,7 @@ import type { Nullable } from './global'
 
 const layers = new Map<string, LayerConfig>()
 
-type CreateLayerConfigFunction = (manager: LayerConfigManager) => AxiosRequestConfig | LayerConfig
+export type CreateLayerConfigFunction = (manager: LayerConfigManager) => AxiosRequestConfig | LayerConfig
 type CreateLayerConfig = AxiosRequestConfig | LayerConfig | CreateLayerConfigFunction
 type ModifyLayerConfigFn = (l: LayerConfig) => void
 type CopyLayerConfigFn = (target: LayerConfig, source: LayerConfig) => void

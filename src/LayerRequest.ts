@@ -19,9 +19,10 @@ import type {
   LayerConfigStringable,
 } from './LayerConfig'
 import LayerConfig from './LayerConfig'
+import { Recordable } from './global'
 
 type BuilderCreator = (r: LayerRequest) => void
-type AxiosCreator = (r: LayerRequest) => void
+type AxiosCreator = (axiosRequestConfig?: AxiosRequestConfig) => AxiosInstances
 
 interface AxiosInstances {
   axios?: AxiosInstance
@@ -30,41 +31,35 @@ interface AxiosInstances {
 
 const o = () => Object.create(null)
 
-const buildAxios: AxiosCreator = (instance: LayerRequest): void => {
+const buildAxios: AxiosCreator = (axiosRequestConfig: AxiosRequestConfig = o()): AxiosInstances => {
   const cancelToken = axios.CancelToken.source()
   const a = axios.create({
     cancelToken: cancelToken.token,
-    ...(instance.selectedConfig?.axiosRequestConfig || o()),
+    ...axiosRequestConfig,
   })
 
-  // @ts-ignore
-  a.wrapper = instance
-
-  const ai: AxiosInstances = {
+  return {
     cancelToken,
     axios: a,
   }
-
-  instance.setAxiosInstances(ai)
 }
 
-/**
- * @param {LayerRequest} instance
- */
 const defaultBuilder: BuilderCreator = (instance: LayerRequest): void => {
-  buildAxios(instance)
+  instance.setAxiosInstances(buildAxios(instance.selectedConfig?.axiosRequestConfig))
 }
+
+export type LayerRequestExtraProperties = Recordable
 
 export default class LayerRequest {
   public readonly manager: LayerConfigManager
-  public readonly extra: ExtraProperties
+  public readonly extra: LayerRequestExtraProperties
   public builder: BuilderCreator
 
   public selectedConfig?: LayerConfig
 
   private axiosInstances: AxiosInstances = o()
 
-  constructor(manager: LayerConfigManager = layerConfigManager, extra: ExtraProperties = o()) {
+  constructor(manager: LayerConfigManager = layerConfigManager, extra: LayerRequestExtraProperties = o()) {
     this.manager = manager
     this.extra = extra
 
@@ -80,13 +75,12 @@ export default class LayerRequest {
       layer = layerName
     }
 
-    const sc: LayerConfig = <LayerConfig>this.manager.getLayer(layer, true)
-    this.selectedConfig = sc.clone()
-    this.selectedConfig.setName(sc.getName())
+    const currentLayer: LayerConfig = <LayerConfig>this.manager.getLayer(layer, true)
+    this.selectedConfig = currentLayer.clone()
+    this.selectedConfig.setName(currentLayer.getName())
 
-    this.selectedConfig.extra = {
-      ...sc.extra,
-      ...(isObject(extra) ? extra : o()),
+    if (isObject(extra)) {
+      this.selectedConfig.setExtra(currentLayer.getExtra())
     }
 
     this.builder(this)
@@ -153,6 +147,11 @@ export default class LayerRequest {
   }
 
   public setAxiosInstances(instances: AxiosInstances) {
+    if (!instances.axios) {
+      throw Error('You should create Axios instance')
+    }
+    // @ts-ignore
+    instances.axios.$layerRequest = this
     this.axiosInstances = instances
   }
 
@@ -161,6 +160,6 @@ export default class LayerRequest {
   }
 }
 
-export function buildLayerRequest(extra: ExtraProperties = o(), manager?: LayerConfigManager) {
+export function buildLayerRequest(extra: LayerRequestExtraProperties = o(), manager?: LayerConfigManager) {
   return new LayerRequest(manager, extra)
 }

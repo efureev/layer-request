@@ -33,10 +33,10 @@ export type LayerConfigStringable = LayerConfig | string
 export default class LayerConfig {
   public axiosRequestConfig: AxiosRequestConfig = {}
 
-  protected name?: string
+  private name?: string
   public from?: string
 
-  public extra: ExtraProperties = Object.create(null)
+  private extra: ExtraProperties = Object.create(null)
 
   public interceptors: ConfigLayerInterceptors = {
     request: [],
@@ -80,6 +80,23 @@ export default class LayerConfig {
       axiosRequestConfig: this.axiosRequestConfig,
       interceptors: this.interceptors,
       from: this.from,
+    }
+  }
+
+  public getExtra(key?: string): ExtraProperties | any {
+    return key ? this.extra[key] : this.extra
+  }
+
+  public setExtra(data: ExtraProperties | string, value?: any): void {
+    if (typeof data === 'string') {
+      const e = Object.create(null)
+      e[data] = value
+      data = e
+    }
+
+    this.extra = {
+      ...this.extra,
+      ...<ExtraProperties>data,
     }
   }
 

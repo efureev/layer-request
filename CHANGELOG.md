@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning][semver].
 
 ## [unreleased]
 
-## [0.1.1] - 2022-08-04
+## [1.0.3] - 2022-08-06
+
+### Added
+
+- `setExtra`, `getExtra` to `LayerConfig`
+
+### Changed
+
+- Reformat Axios-builder
+
+## [1.0.0] - 2022-08-04
 
 ### Changed
 

@@ -1,6 +1,5 @@
 import assert from 'assert'
 import { buildLayerRequest, globalLayerConfigManager, LayerConfig, LayerConfigManager, LayerRequest } from '../src'
-
 import { isEmpty, isObject } from '@feugene/mu'
 import ConsoleResponseInterceptor1 from './utils/ConsoleResponseInterceptor1'
 import ConsoleResponseInterceptor2 from './utils/ConsoleResponseInterceptor2'
@@ -10,7 +9,6 @@ describe('create request by default', () => {
     it('initialization', () => {
       globalLayerConfigManager.reset()
       const request = buildLayerRequest()
-      console.log(request)
 
       assert.strictEqual(true, request instanceof LayerRequest)
       assert.strictEqual(true, request.getAxios() == null)
@@ -73,7 +71,7 @@ describe('create request by default', () => {
       const copyLayout = cm.copyLayer(layoutApi)
 
       copyLayout.axiosRequestConfig.baseURL += '/v1'
-      copyLayout.extra.store = 'text'
+      copyLayout.setExtra('store', 'text')
 
       return copyLayout
     })
@@ -87,13 +85,12 @@ describe('create request by default', () => {
     const layoutSm = r.manager.addCopyFrom(layoutV1, (targetConfig, sourceConfig) => {
       targetConfig.axiosRequestConfig.baseURL += '/sub-module'
       targetConfig.interceptors.response.push(ConsoleResponseInterceptor2)
-      targetConfig.extra = sourceConfig.extra
+      targetConfig.setExtra(sourceConfig.getExtra())
     })
-
     assert.strictEqual(true, r.getAxios() == null)
     assert.strictEqual(true, isObject(r.extra))
-    // assert.strictEqual(true, isEmpty(r.extra))
-    assert.strictEqual(true, layoutSm.extra.store === 'text')
+    assert.strictEqual(true, isEmpty(r.extra))
+    assert.strictEqual(true, layoutSm.getExtra('store') === 'text')
     assert.strictEqual(3, r.manager.list().length)
     assert.strictEqual(2, layoutSm.interceptors.response.length)
 
@@ -116,14 +113,13 @@ describe('create request by default', () => {
 
       copyLayout.axiosRequestConfig.baseURL += '/module-1'
 
-      // delete copyLayout.extra.test
-
       return copyLayout
     }, 'module-1')
 
     assert.strictEqual(5, r.manager.list().length)
     assert.strictEqual(1, layerModule1.interceptors.response.length)
-    // assert.strictEqual(true, layerModule1.extra.store === 'test')
+    console.log(`layerModule1.getExtra()`, layerModule1.getExtra())
+    assert.strictEqual(true, layerModule1.getExtra().store === undefined)
 
     r.manager.addLayer((cm) => cm.copyLayer('/api'), 'front')
 
