@@ -49,13 +49,13 @@ export class LayerConfig {
   constructor(properties?: ConfigLayerConstructor) {
     this.axiosRequestConfig = properties?.axiosRequestConfig || buildBaseAxiosConfig()
 
-    this.interceptors = merge(
+    this.interceptors = merge<ConfigLayerInterceptors>(
       {
         request: [],
         response: [],
       },
-      <ConfigLayerInterceptors>properties?.interceptors,
-    ) as ConfigLayerInterceptors
+      <ConfigLayerInterceptors>properties?.interceptors
+    )
 
     if (properties?.extra) {
       this.setExtra(properties?.extra)
@@ -63,7 +63,7 @@ export class LayerConfig {
   }
 
   public clone(): LayerConfig {
-    return new LayerConfig(clone(this.toConfigObject()))
+    return new LayerConfig(clone<ConfigLayerConstructor>(this.toConfigObject()))
   }
 
   public getName(): string {
@@ -104,7 +104,7 @@ export class LayerConfig {
     if (isObject(data)) {
       this.extra = {
         ...this.extra,
-        ...<ExtraProperties>data,
+        ...(<ExtraProperties>data),
       }
     }
   }

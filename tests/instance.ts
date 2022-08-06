@@ -19,7 +19,7 @@ describe('create request by default', () => {
 
       assert.strictEqual(true, request.manager.all() instanceof Map)
       assert.strictEqual(0, request.manager.list().length)
-      assert.strictEqual(null, request.manager.getLayer('/'))
+      assert.strictEqual(undefined, request.manager.getLayer('/'))
 
     })
 
