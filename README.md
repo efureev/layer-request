@@ -14,12 +14,12 @@ Hierarchical configs:
 
 ```mermaid
 flowchart LR
-	node[<b>base axios-config</b><br>name: `api`<br>base url: `/api`]
+	node[<b>axios-config: base</b><hr>name: `api`<br>base url: `/api`]
 	
-	node1[<b>V1 axios-config</b><br>name: `v1`<br>base url: `/api/v1`]
-	node2[<b>V1 axios-config</b><br>name: `v2`<br>base url: `/api/v2`]
+	node1[<b>axios-config: v1</b><hr>name: `v1`<br>base url: `/api/v1`]
+	node2[<b>axios-config: v2</b><hr>name: `v2`<br>base url: `/api/v2`]
 	
-	node2User[<b>V2.users axios-config</b><br>name: `v2users`<br>base url: `/api/v2/users`]
+	node2User[<b>axios-config: v2.users</b><hr>name: `v2.users`<br>base url: `/api/v2/users`]
 	
 	style node text-align:left
 	style node1 text-align:left
@@ -118,7 +118,9 @@ import { buildLayerRequest } from '@feugene/layer-request'
 const request = buildLayerRequest()
 ```
 
-You may take over `extra`-data within requests and interceptors:
+You can transfer "additional" data within requests and interceptors:
+
+**In request**
 
 ```js
 import { LayerRequest, LayerConfigManager } from '@feugene/layer-request'
@@ -133,12 +135,32 @@ const extra = {
 const request = new LayerRequest(m, extra)
 ```
 
+**In layer**
+
+```js
+import { LayerRequest, layerConfigManager } from '@feugene/layer-request'
+
+const lc = new LayerConfig({
+  axiosRequestConfig: {
+    baseURL: '/',
+  },
+  extra: {
+    store: {},
+    dataWrapper: true,
+  }
+})
+
+layerConfigManager.addLayer(lc, 'base')
+```
+
+> **Note:** layer's extras & request's extras will be merged!
+
 ## Add new config layer
 
 ```js
 const r = buildLayerRequest()
 
-const layoutApi = r.manager.addLayer((cm) => cm.new({
+const layoutApi = r.manager.addLayer((cm) => cm.createLayer({
   axiosRequestConfig: {
     headers: {
       host: 'localhost',

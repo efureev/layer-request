@@ -1,4 +1,4 @@
-import { clone, isEmpty, merge } from '@feugene/mu'
+import { clone, isEmpty, isObject, merge } from '@feugene/mu'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import type { Recordable } from './global'
 
@@ -25,10 +25,13 @@ export interface ConfigLayerConstructor {
   axiosRequestConfig: AxiosRequestConfig
   interceptors: Partial<ConfigLayerInterceptors>
   from?: string
+  extra?: ExtraProperties
 }
 
 export type ExtraProperties = Recordable
 export type LayerConfigStringable = LayerConfig | string
+
+const o = () => Object.create(null)
 
 export default class LayerConfig {
   public axiosRequestConfig: AxiosRequestConfig = {}
@@ -36,7 +39,7 @@ export default class LayerConfig {
   private name?: string
   public from?: string
 
-  private extra: ExtraProperties = Object.create(null)
+  private extra: ExtraProperties = o()
 
   public interceptors: ConfigLayerInterceptors = {
     request: [],
@@ -53,6 +56,10 @@ export default class LayerConfig {
       },
       <ConfigLayerInterceptors>properties?.interceptors,
     ) as ConfigLayerInterceptors
+
+    if (properties?.extra) {
+      this.setExtra(properties?.extra)
+    }
   }
 
   public clone(): LayerConfig {
@@ -89,14 +96,16 @@ export default class LayerConfig {
 
   public setExtra(data: ExtraProperties | string, value?: any): void {
     if (typeof data === 'string') {
-      const e = Object.create(null)
+      const e = o()
       e[data] = value
       data = e
     }
 
-    this.extra = {
-      ...this.extra,
-      ...<ExtraProperties>data,
+    if (isObject(data)) {
+      this.extra = {
+        ...this.extra,
+        ...<ExtraProperties>data,
+      }
     }
   }
 

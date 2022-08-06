@@ -1,4 +1,4 @@
-import { clone, isEmpty, merge } from '@feugene/mu';
+import { clone, isEmpty, isObject, merge } from '@feugene/mu';
 
 function buildBaseAxiosConfig() {
   return {
@@ -7,9 +7,11 @@ function buildBaseAxiosConfig() {
   };
 }
 
+const o = () => Object.create(null);
+
 export default class LayerConfig {
   axiosRequestConfig = {};
-  extra = Object.create(null);
+  extra = o();
   interceptors = {
     request: [],
     response: []
@@ -21,6 +23,10 @@ export default class LayerConfig {
       request: [],
       response: []
     }, properties?.interceptors);
+
+    if (properties?.extra) {
+      this.setExtra(properties?.extra);
+    }
   }
 
   clone() {
@@ -57,14 +63,16 @@ export default class LayerConfig {
 
   setExtra(data, value) {
     if (typeof data === 'string') {
-      const e = Object.create(null);
+      const e = o();
       e[data] = value;
       data = e;
     }
 
-    this.extra = { ...this.extra,
-      ...data
-    };
+    if (isObject(data)) {
+      this.extra = { ...this.extra,
+        ...data
+      };
+    }
   }
 
 }

@@ -13,6 +13,7 @@ export interface ConfigLayerConstructor {
     axiosRequestConfig: AxiosRequestConfig;
     interceptors: Partial<ConfigLayerInterceptors>;
     from?: string;
+    extra?: ExtraProperties;
 }
 export declare type ExtraProperties = Recordable;
 export declare type LayerConfigStringable = LayerConfig | string;

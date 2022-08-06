@@ -26,13 +26,17 @@ function buildBaseAxiosConfig() {
   };
 }
 
+var o = function o() {
+  return Object.create(null);
+};
+
 var LayerConfig = /*#__PURE__*/function () {
   function LayerConfig(properties) {
     _classCallCheck(this, LayerConfig);
 
     _defineProperty(this, "axiosRequestConfig", {});
 
-    _defineProperty(this, "extra", Object.create(null));
+    _defineProperty(this, "extra", o());
 
     _defineProperty(this, "interceptors", {
       request: [],
@@ -44,6 +48,10 @@ var LayerConfig = /*#__PURE__*/function () {
       request: [],
       response: []
     }, properties === null || properties === void 0 ? void 0 : properties.interceptors);
+
+    if (properties !== null && properties !== void 0 && properties.extra) {
+      this.setExtra(properties === null || properties === void 0 ? void 0 : properties.extra);
+    }
   }
 
   _createClass(LayerConfig, [{
@@ -87,12 +95,14 @@ var LayerConfig = /*#__PURE__*/function () {
     key: "setExtra",
     value: function setExtra(data, value) {
       if (typeof data === 'string') {
-        var e = Object.create(null);
+        var e = o();
         e[data] = value;
         data = e;
       }
 
-      this.extra = _objectSpread(_objectSpread({}, this.extra), data);
+      if ((0, _mu.isObject)(data)) {
+        this.extra = _objectSpread(_objectSpread({}, this.extra), data);
+      }
     }
   }]);
 
