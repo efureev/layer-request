@@ -153,6 +153,12 @@ const lc = new LayerConfig({
 layerConfigManager.addLayer(lc, 'base')
 ```
 
+Or when you make request:
+
+```js
+const request = r.useConfig(configId, { withoutDataBlock: true })
+```
+
 > **Note:** layer's extras & request's extras will be merged!
 
 ## Add new config layer
