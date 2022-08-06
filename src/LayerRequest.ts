@@ -19,7 +19,6 @@ import type {
   LayerConfigStringable,
 } from './LayerConfig'
 import LayerConfig from './LayerConfig'
-import { Recordable } from './global'
 
 type BuilderCreator = (r: LayerRequest) => void
 type AxiosCreator = (axiosRequestConfig?: AxiosRequestConfig) => AxiosInstances
@@ -48,18 +47,16 @@ const defaultBuilder: BuilderCreator = (instance: LayerRequest): void => {
   instance.setAxiosInstances(buildAxios(instance.selectedConfig?.axiosRequestConfig))
 }
 
-export type LayerRequestExtraProperties = Recordable
-
 export default class LayerRequest {
   public readonly manager: LayerConfigManager
-  public readonly extra: LayerRequestExtraProperties
+  public readonly extra: ExtraProperties
   public builder: BuilderCreator
 
   public selectedConfig?: LayerConfig
 
   private axiosInstances: AxiosInstances = o()
 
-  constructor(manager: LayerConfigManager = layerConfigManager, extra: LayerRequestExtraProperties = o()) {
+  constructor(manager: LayerConfigManager = layerConfigManager, extra: ExtraProperties = o()) {
     this.manager = manager
     this.extra = extra
 
@@ -160,6 +157,6 @@ export default class LayerRequest {
   }
 }
 
-export function buildLayerRequest(extra: LayerRequestExtraProperties = o(), manager?: LayerConfigManager) {
+export function buildLayerRequest(extra: ExtraProperties = o(), manager?: LayerConfigManager) {
   return new LayerRequest(manager, extra)
 }
