@@ -159,7 +159,7 @@ Or when you make request:
 const request = r.useConfig(configId, { withoutDataBlock: true })
 ```
 
-> **Note:** layer's extras & request's extras will be merged!
+> **Note:** layer's extras & extras bringing in `useConfig` will be merged!
 
 ## Add new config layer
 
@@ -237,4 +237,86 @@ request.get('app/users')  // --> GET '/api/v2/app/users'
 request.post('app/users/12')  // --> POST '/api/v2/app/users/12'
   .then(resp => {
   })
+```  
+
+## Use Interceptors
+
+```js
+import { LayerRequest, globalLayerConfigManager } from '@feugene/layer-request'
+
+/**
+ * @param {LayerConfig} layerConfig
+ * @param {ExtraProperties} requestExtra
+ */
+const ConsoleLogRequestInterceptor = (layerConfig, requestExtra) =>
+  /**
+   * @param {AxiosRequestConfig} axiosRequestConfig
+   * @return {AxiosRequestConfig}
+   */
+    (axiosRequestConfig) => {
+    console.info(
+      `\t🌐 [${axiosRequestConfig.method.toUpperCase()}] ${axiosRequestConfig.baseURL}/${axiosRequestConfig.url}`,
+    )
+    return axiosRequestConfig
+  }
+
+/**
+ * @param {boolean} disableLogging
+ */
+const errHandler = (disableLogging) =>
+  /**
+   * @param {AxiosError} error
+   * @return {Promise<AxiosError>}
+   */
+    (error) => {
+    if (disableLogging) {
+      return
+    }
+    
+    console.info(
+      `\t❌ [${error.response.config.method.toUpperCase()}]  ${
+        error.response.request.responseURL || error.response.request.res.responseUrl
+      }`,
+    )
+    return Promise.reject(error)
+  }
+
+/**
+ *
+ * @param {AxiosResponse} response
+ * @return {AxiosResponse}
+ */
+const successHandler = (response) => {
+  console.info(
+    `\t✅ [${response.config.method.toUpperCase()}]  ${
+      response.request.responseURL || response.request.res.responseUrl
+    }`,
+  )
+  return response
+}
+
+/**
+ * @param {LayerConfig} layerConfig
+ * @param {ExtraProperties} requestExtra
+ * @return {[(function(AxiosResponse): AxiosResponse),(function(AxiosError): Promise<AxiosError>)]}
+ * @constructor
+ */
+const ConsoleLogResponseInterceptor = (layerConfig, requestExtra) => [successHandler, errHandler(layerConfig.getExtra('disableErrorLogging'))]
+
+const apiRequestConfig = {
+  axiosRequestConfig: {
+    baseURL: '/api',
+  },
+  interceptors: {
+    request: [ConsoleLogRequestInterceptor],
+    response: [ConsoleLogResponseInterceptor],
+  },
+}
+
+const layerApi = globalLayerConfigManager.addLayer(apiRequestConfig, 'api')
+
+const layerRequest = new LayerRequest()
+const request = layerRequest.useConfig('api', { disableErrorLogging: true })
+
+request.get('/') // will not be logging http errors
 ```  
