@@ -63,8 +63,6 @@ var LayerConfigManager = /*#__PURE__*/function () {
       if (throws) {
         throw Error("Config Layer with name '".concat(name, "' not found"));
       }
-
-      return null;
     }
   }, {
     key: "list",

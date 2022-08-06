@@ -9,7 +9,7 @@ function buildBaseAxiosConfig() {
 
 const o = () => Object.create(null);
 
-export default class LayerConfig {
+export class LayerConfig {
   axiosRequestConfig = {};
   extra = o();
   interceptors = {
@@ -76,4 +76,5 @@ export default class LayerConfig {
   }
 
 }
+export default LayerConfig;
 //# sourceMappingURL=LayerConfig.js.map

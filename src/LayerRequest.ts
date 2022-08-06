@@ -1,10 +1,5 @@
-import axios, {
-  AxiosInstance,
-  AxiosInterceptorManager,
-  AxiosRequestConfig,
-  AxiosResponse,
-  CancelTokenSource,
-} from 'axios'
+import type { AxiosInstance, AxiosInterceptorManager, AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios from 'axios'
 
 import { isFunction, isObject } from '@feugene/mu'
 import type { LayerConfigManager } from './LayerConfigManager'
@@ -16,29 +11,34 @@ import type {
   InterceptorFn,
   InterceptorNormal,
   InterceptorSuccessParam,
+  LayerConfig,
   LayerConfigStringable,
 } from './LayerConfig'
-import LayerConfig from './LayerConfig'
+import { Undef } from './global'
 
 type BuilderCreator = (r: LayerRequest) => void
 type AxiosCreator = (axiosRequestConfig?: AxiosRequestConfig) => AxiosInstances
 
 interface AxiosInstances {
   axios?: AxiosInstance
-  cancelToken?: CancelTokenSource
+  cancelController?: AbortController
 }
 
 const o = () => Object.create(null)
 
 const buildAxios: AxiosCreator = (axiosRequestConfig: AxiosRequestConfig = o()): AxiosInstances => {
-  const cancelToken = axios.CancelToken.source()
+
+  // to cancel the request:
+  // controller.abort()
+  const cancelController = new AbortController()
+
   const a = axios.create({
-    cancelToken: cancelToken.token,
+    signal: cancelController.signal,
     ...axiosRequestConfig,
   })
 
   return {
-    cancelToken,
+    cancelController,
     axios: a,
   }
 }
@@ -99,7 +99,7 @@ export default class LayerRequest {
     this.selectedConfig = undefined
     this.builder = defaultBuilder
     this.axiosInstances.axios = undefined
-    this.axiosInstances.cancelToken = undefined
+    this.axiosInstances.cancelController = undefined
 
     return this
   }
@@ -152,8 +152,16 @@ export default class LayerRequest {
     this.axiosInstances = instances
   }
 
-  public getAxios(): AxiosInstance | undefined {
+  public getAxios(): Undef<AxiosInstance> {
     return this.axiosInstances.axios
+  }
+
+  public getCancel(): Undef<AbortController> {
+    return this.axiosInstances.cancelController
+  }
+
+  public abort(reason?: any): void {
+    this.axiosInstances.cancelController && this.axiosInstances.cancelController.abort(reason)
   }
 }
 

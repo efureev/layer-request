@@ -44,15 +44,16 @@ var o = function o() {
 
 var buildAxios = function buildAxios() {
   var axiosRequestConfig = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : o();
-
-  var cancelToken = _axios.default.CancelToken.source();
+  // to cancel the request:
+  // controller.abort()
+  var cancelController = new AbortController();
 
   var a = _axios.default.create(_objectSpread({
-    cancelToken: cancelToken.token
+    signal: cancelController.signal
   }, axiosRequestConfig));
 
   return {
-    cancelToken: cancelToken,
+    cancelController: cancelController,
     axios: a
   };
 };
@@ -121,7 +122,7 @@ var LayerRequest = /*#__PURE__*/function () {
       this.selectedConfig = undefined;
       this.builder = defaultBuilder;
       this.axiosInstances.axios = undefined;
-      this.axiosInstances.cancelToken = undefined;
+      this.axiosInstances.cancelController = undefined;
       return this;
     }
   }, {
@@ -182,6 +183,16 @@ var LayerRequest = /*#__PURE__*/function () {
     key: "getAxios",
     value: function getAxios() {
       return this.axiosInstances.axios;
+    }
+  }, {
+    key: "getCancel",
+    value: function getCancel() {
+      return this.axiosInstances.cancelController;
+    }
+  }, {
+    key: "abort",
+    value: function abort(reason) {
+      this.axiosInstances.cancelController && this.axiosInstances.cancelController.abort(reason);
     }
   }]);
 

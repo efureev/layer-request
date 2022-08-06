@@ -1,2 +1,2 @@
-export type Nullable<T> = T | null
+export type Undef<T> = T | undefined
 export type Recordable<T = any> = Record<string, T>

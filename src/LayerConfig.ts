@@ -33,7 +33,7 @@ export type LayerConfigStringable = LayerConfig | string
 
 const o = () => Object.create(null)
 
-export default class LayerConfig {
+export class LayerConfig {
   public axiosRequestConfig: AxiosRequestConfig = {}
 
   private name?: string
@@ -108,5 +108,6 @@ export default class LayerConfig {
       }
     }
   }
-
 }
+
+export default LayerConfig

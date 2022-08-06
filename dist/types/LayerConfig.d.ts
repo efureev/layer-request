@@ -17,7 +17,7 @@ export interface ConfigLayerConstructor {
 }
 export declare type ExtraProperties = Recordable;
 export declare type LayerConfigStringable = LayerConfig | string;
-export default class LayerConfig {
+export declare class LayerConfig {
     axiosRequestConfig: AxiosRequestConfig;
     private name?;
     from?: string;
@@ -31,4 +31,5 @@ export default class LayerConfig {
     getExtra(key?: string): ExtraProperties | any;
     setExtra(data: ExtraProperties | string, value?: any): void;
 }
+export default LayerConfig;
 //# sourceMappingURL=LayerConfig.d.ts.map

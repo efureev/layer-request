@@ -5,13 +5,15 @@ import layerConfigManager from './LayerConfigManager';
 const o = () => Object.create(null);
 
 const buildAxios = (axiosRequestConfig = o()) => {
-  const cancelToken = axios.CancelToken.source();
+  // to cancel the request:
+  // controller.abort()
+  const cancelController = new AbortController();
   const a = axios.create({
-    cancelToken: cancelToken.token,
+    signal: cancelController.signal,
     ...axiosRequestConfig
   });
   return {
-    cancelToken,
+    cancelController,
     axios: a
   };
 };
@@ -66,7 +68,7 @@ export default class LayerRequest {
     this.selectedConfig = undefined;
     this.builder = defaultBuilder;
     this.axiosInstances.axios = undefined;
-    this.axiosInstances.cancelToken = undefined;
+    this.axiosInstances.cancelController = undefined;
     return this;
   }
 
@@ -116,6 +118,14 @@ export default class LayerRequest {
 
   getAxios() {
     return this.axiosInstances.axios;
+  }
+
+  getCancel() {
+    return this.axiosInstances.cancelController;
+  }
+
+  abort(reason) {
+    this.axiosInstances.cancelController && this.axiosInstances.cancelController.abort(reason);
   }
 
 }

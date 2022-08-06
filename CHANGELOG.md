@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning][semver].
 
 ## [unreleased]
 
+## [1.0.5] - 2022-08-07
+
+### Added
+
+- Add `AbortController` to cancel a request
+- Add `getCancel`, `abort` request's methods
+
 ## [1.0.3] - 2022-08-06
 
 ### Added

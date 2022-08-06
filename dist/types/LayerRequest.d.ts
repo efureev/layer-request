@@ -1,11 +1,11 @@
-import { AxiosInstance, CancelTokenSource } from 'axios';
+import type { AxiosInstance } from 'axios';
 import type { LayerConfigManager } from './LayerConfigManager';
-import type { ExtraProperties, LayerConfigStringable } from './LayerConfig';
-import LayerConfig from './LayerConfig';
+import type { ExtraProperties, LayerConfig, LayerConfigStringable } from './LayerConfig';
+import { Undef } from './global';
 declare type BuilderCreator = (r: LayerRequest) => void;
 interface AxiosInstances {
     axios?: AxiosInstance;
-    cancelToken?: CancelTokenSource;
+    cancelController?: AbortController;
 }
 export default class LayerRequest {
     readonly manager: LayerConfigManager;
@@ -25,7 +25,9 @@ export default class LayerRequest {
     private registerInterceptors;
     private applyInterceptors;
     setAxiosInstances(instances: AxiosInstances): void;
-    getAxios(): AxiosInstance | undefined;
+    getAxios(): Undef<AxiosInstance>;
+    getCancel(): Undef<AbortController>;
+    abort(reason?: any): void;
 }
 export declare function buildLayerRequest(extra?: ExtraProperties, manager?: LayerConfigManager): LayerRequest;
 export {};

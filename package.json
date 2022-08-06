@@ -1,6 +1,6 @@
 {
   "name": "@feugene/layer-request",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Request with a config layers",
   "keywords": [
     "request"

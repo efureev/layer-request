@@ -36,8 +36,6 @@ export class LayerConfigManager {
     if (throws) {
       throw Error(`Config Layer with name '${name}' not found`);
     }
-
-    return null;
   }
 
   list() {

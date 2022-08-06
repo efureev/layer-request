@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = exports.LayerConfig = void 0;
 
 var _mu = require("@feugene/mu");
 
@@ -109,5 +109,7 @@ var LayerConfig = /*#__PURE__*/function () {
   return LayerConfig;
 }();
 
-exports.default = LayerConfig;
+exports.LayerConfig = LayerConfig;
+var _default = LayerConfig;
+exports.default = _default;
 //# sourceMappingURL=LayerConfig.js.map

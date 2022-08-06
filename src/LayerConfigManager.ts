@@ -2,7 +2,7 @@ import type { AxiosRequestConfig } from 'axios'
 import { isFunction, isObject } from '@feugene/mu'
 import type { LayerConfigStringable } from './LayerConfig'
 import LayerConfig, { ConfigLayerConstructor } from './LayerConfig'
-import type { Nullable } from './global'
+import { Undef } from './global'
 
 const layers = new Map<string, LayerConfig>()
 
@@ -32,7 +32,7 @@ export class LayerConfigManager {
     return configValue
   }
 
-  getLayer(name: LayerConfigStringable, throws: boolean = false): Nullable<LayerConfig> {
+  getLayer(name: LayerConfigStringable, throws: boolean = false): Undef<LayerConfig> {
     if (name instanceof LayerConfig) {
       return name
     }
@@ -45,8 +45,6 @@ export class LayerConfigManager {
     if (throws) {
       throw Error(`Config Layer with name '${name}' not found`)
     }
-
-    return null
   }
 
   list(): string[] {
