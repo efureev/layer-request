@@ -54,7 +54,7 @@ export class LayerConfig {
         request: [],
         response: [],
       },
-      <ConfigLayerInterceptors>properties?.interceptors,
+      <ConfigLayerInterceptors>properties?.interceptors
     )
 
     if (properties?.extra) {

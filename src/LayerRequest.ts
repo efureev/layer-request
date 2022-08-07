@@ -121,15 +121,15 @@ export default class LayerRequest {
       throw Error('To handle request you should choose a LayerConfig with `useConfig`!')
     }
     interceptors.request &&
-    this.registerInterceptors<AxiosRequestConfig>(
-      this.axiosInstances.axios.interceptors.request,
-      ...interceptors.request,
-    )
+      this.registerInterceptors<AxiosRequestConfig>(
+        this.axiosInstances.axios.interceptors.request,
+        ...interceptors.request
+      )
     interceptors.response &&
-    this.registerInterceptors<AxiosResponse>(
-      this.axiosInstances.axios.interceptors.response,
-      ...interceptors.response,
-    )
+      this.registerInterceptors<AxiosResponse>(
+        this.axiosInstances.axios.interceptors.response,
+        ...interceptors.response
+      )
   }
 
   public setAxiosInstances(instances: AxiosInstances) {

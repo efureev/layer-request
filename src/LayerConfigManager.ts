@@ -64,7 +64,12 @@ export class LayerConfigManager {
   /**
    * Add a copy of an existing LayerConfig to the Layer Manager
    */
-  addCopyFrom(fromLayer: LayerConfigStringable, fn: CopyLayerConfigFn, newLayer?: string, withExtra: boolean = false): LayerConfig {
+  addCopyFrom(
+    fromLayer: LayerConfigStringable,
+    fn: CopyLayerConfigFn,
+    newLayer?: string,
+    withExtra: boolean = false
+  ): LayerConfig {
     const copy = this.copyLayerAndSetup(fromLayer, fn)
 
     return this.addLayer(copy, newLayer)
