@@ -72,27 +72,16 @@ export default class LayerRequest {
     }
 
     const currentLayer: LayerConfig = <LayerConfig>this.manager.getLayer(layer, true)
-    this.selectedConfig = currentLayer.clone()
+    this.selectedConfig = currentLayer.clone(true)
     this.selectedConfig.setName(currentLayer.getName())
 
-    this.selectedConfig.setExtra({
-      ...currentLayer.getExtra(),
-      ...(isObject(extra) ? extra : {}),
-    })
+    this.selectedConfig.setExtra(extra)
 
     this.builder(this)
 
     this.applyInterceptors(this.selectedConfig.interceptors)
 
     return <AxiosInstance>this.axiosInstances.axios
-  }
-
-  /**
-   * @deprecated
-   * @use `useConfig`
-   */
-  build(layer: LayerConfigStringable, extra: ExtraProperties = o()): AxiosInstance {
-    return this.useConfig(layer, extra)
   }
 
   reset() {
@@ -132,15 +121,15 @@ export default class LayerRequest {
       throw Error('To handle request you should choose a LayerConfig with `useConfig`!')
     }
     interceptors.request &&
-      this.registerInterceptors<AxiosRequestConfig>(
-        this.axiosInstances.axios.interceptors.request,
-        ...interceptors.request
-      )
+    this.registerInterceptors<AxiosRequestConfig>(
+      this.axiosInstances.axios.interceptors.request,
+      ...interceptors.request,
+    )
     interceptors.response &&
-      this.registerInterceptors<AxiosResponse>(
-        this.axiosInstances.axios.interceptors.response,
-        ...interceptors.response
-      )
+    this.registerInterceptors<AxiosResponse>(
+      this.axiosInstances.axios.interceptors.response,
+      ...interceptors.response,
+    )
   }
 
   public setAxiosInstances(instances: AxiosInstances) {

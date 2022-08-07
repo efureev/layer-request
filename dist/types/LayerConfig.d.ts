@@ -24,7 +24,7 @@ export declare class LayerConfig {
     private extra;
     interceptors: ConfigLayerInterceptors;
     constructor(properties?: ConfigLayerConstructor);
-    clone(): LayerConfig;
+    clone(withExtra?: boolean): LayerConfig;
     getName(): string;
     setName(name?: string): void;
     protected toConfigObject(): ConfigLayerConstructor;

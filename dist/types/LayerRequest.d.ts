@@ -15,11 +15,6 @@ export default class LayerRequest {
     private axiosInstances;
     constructor(manager?: LayerConfigManager, extra?: ExtraProperties);
     useConfig(layer: LayerConfigStringable, extra?: ExtraProperties): AxiosInstance;
-    /**
-     * @deprecated
-     * @use `useConfig`
-     */
-    build(layer: LayerConfigStringable, extra?: ExtraProperties): AxiosInstance;
     reset(): this;
     private normalizeInterceptors;
     private registerInterceptors;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { isFunction, isObject } from '@feugene/mu';
+import { isFunction } from '@feugene/mu';
 import layerConfigManager from './LayerConfigManager';
 
 const o = () => Object.create(null);
@@ -43,23 +43,12 @@ export default class LayerRequest {
     }
 
     const currentLayer = this.manager.getLayer(layer, true);
-    this.selectedConfig = currentLayer.clone();
+    this.selectedConfig = currentLayer.clone(true);
     this.selectedConfig.setName(currentLayer.getName());
-    this.selectedConfig.setExtra({ ...currentLayer.getExtra(),
-      ...(isObject(extra) ? extra : {})
-    });
+    this.selectedConfig.setExtra(extra);
     this.builder(this);
     this.applyInterceptors(this.selectedConfig.interceptors);
     return this.axiosInstances.axios;
-  }
-  /**
-   * @deprecated
-   * @use `useConfig`
-   */
-
-
-  build(layer, extra = o()) {
-    return this.useConfig(layer, extra);
   }
 
   reset() {

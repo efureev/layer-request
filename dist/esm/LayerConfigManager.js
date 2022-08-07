@@ -55,7 +55,7 @@ export class LayerConfigManager {
    */
 
 
-  addCopyFrom(fromLayer, fn, newLayer) {
+  addCopyFrom(fromLayer, fn, newLayer, withExtra = false) {
     const copy = this.copyLayerAndSetup(fromLayer, fn);
     return this.addLayer(copy, newLayer);
   }
@@ -64,9 +64,9 @@ export class LayerConfigManager {
    */
 
 
-  copyLayerAndSetup(fromLayer, fn) {
+  copyLayerAndSetup(fromLayer, fn, withExtra = false) {
     fromLayer = this.getLayer(fromLayer, true);
-    const layerCopy = this.copyLayer(fromLayer);
+    const layerCopy = this.copyLayer(fromLayer, withExtra);
     layerCopy.from = fromLayer.getName();
     fn(layerCopy, fromLayer);
     return layerCopy;
@@ -76,13 +76,13 @@ export class LayerConfigManager {
    */
 
 
-  copyLayer(name) {
+  copyLayer(name, withExtra = false) {
     if (name instanceof LayerConfig) {
       name = name.getName();
     }
 
     const l = this.getLayer(name, true);
-    return l.clone();
+    return l.clone(withExtra);
   }
   /**
    * Update a LayerConfig by its name

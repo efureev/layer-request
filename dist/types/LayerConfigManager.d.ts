@@ -15,15 +15,15 @@ export declare class LayerConfigManager {
     /**
      * Add a copy of an existing LayerConfig to the Layer Manager
      */
-    addCopyFrom(fromLayer: LayerConfigStringable, fn: CopyLayerConfigFn, newLayer?: string): LayerConfig;
+    addCopyFrom(fromLayer: LayerConfigStringable, fn: CopyLayerConfigFn, newLayer?: string, withExtra?: boolean): LayerConfig;
     /**
      * Copy a LayerConfig from an existing LayerConfig and set it up
      */
-    copyLayerAndSetup(fromLayer: LayerConfigStringable, fn: CopyLayerConfigFn): LayerConfig;
+    copyLayerAndSetup(fromLayer: LayerConfigStringable, fn: CopyLayerConfigFn, withExtra?: boolean): LayerConfig;
     /**
      * Copy a LayerConfig from an existing LayerConfig
      */
-    copyLayer(name: LayerConfigStringable): LayerConfig;
+    copyLayer(name: LayerConfigStringable, withExtra?: boolean): LayerConfig;
     /**
      * Update a LayerConfig by its name
      */

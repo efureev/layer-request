@@ -29,8 +29,14 @@ export class LayerConfig {
     }
   }
 
-  clone() {
-    return new LayerConfig(clone(this.toConfigObject()));
+  clone(withExtra = false) {
+    const l = new LayerConfig(clone(this.toConfigObject()));
+
+    if (withExtra) {
+      l.setExtra(this.getExtra());
+    }
+
+    return l;
   }
 
   getName() {

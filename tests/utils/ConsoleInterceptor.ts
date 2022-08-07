@@ -2,7 +2,7 @@ import { ExtraProperties, InterceptorSuccessParam } from '../../src'
 import { AxiosRequestConfig } from 'axios'
 import LayerConfig from '../../src/LayerConfig'
 
-const ConsoleInterceptor = (options: LayerConfig, extra: ExtraProperties): InterceptorSuccessParam<AxiosRequestConfig> =>
+const ConsoleInterceptor = (layerConfig: LayerConfig, requestExtra: ExtraProperties): InterceptorSuccessParam<AxiosRequestConfig> =>
   (config: AxiosRequestConfig): AxiosRequestConfig => {
     console.log('run ConsoleInterceptor')
     return config

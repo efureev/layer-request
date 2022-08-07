@@ -57,7 +57,14 @@ var LayerConfig = /*#__PURE__*/function () {
   _createClass(LayerConfig, [{
     key: "clone",
     value: function clone() {
-      return new LayerConfig((0, _mu.clone)(this.toConfigObject()));
+      var withExtra = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var l = new LayerConfig((0, _mu.clone)(this.toConfigObject()));
+
+      if (withExtra) {
+        l.setExtra(this.getExtra());
+      }
+
+      return l;
     }
   }, {
     key: "getName",

@@ -54,7 +54,7 @@ export class LayerConfig {
         request: [],
         response: [],
       },
-      <ConfigLayerInterceptors>properties?.interceptors
+      <ConfigLayerInterceptors>properties?.interceptors,
     )
 
     if (properties?.extra) {
@@ -62,8 +62,13 @@ export class LayerConfig {
     }
   }
 
-  public clone(): LayerConfig {
-    return new LayerConfig(clone<ConfigLayerConstructor>(this.toConfigObject()))
+  public clone(withExtra: boolean = false): LayerConfig {
+    const l = new LayerConfig(clone<ConfigLayerConstructor>(this.toConfigObject()))
+    if (withExtra) {
+      l.setExtra(this.getExtra())
+    }
+
+    return l
   }
 
   public getName(): string {

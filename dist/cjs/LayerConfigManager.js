@@ -87,6 +87,7 @@ var LayerConfigManager = /*#__PURE__*/function () {
   }, {
     key: "addCopyFrom",
     value: function addCopyFrom(fromLayer, fn, newLayer) {
+      var withExtra = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
       var copy = this.copyLayerAndSetup(fromLayer, fn);
       return this.addLayer(copy, newLayer);
     }
@@ -97,8 +98,9 @@ var LayerConfigManager = /*#__PURE__*/function () {
   }, {
     key: "copyLayerAndSetup",
     value: function copyLayerAndSetup(fromLayer, fn) {
+      var withExtra = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       fromLayer = this.getLayer(fromLayer, true);
-      var layerCopy = this.copyLayer(fromLayer);
+      var layerCopy = this.copyLayer(fromLayer, withExtra);
       layerCopy.from = fromLayer.getName();
       fn(layerCopy, fromLayer);
       return layerCopy;
@@ -110,12 +112,14 @@ var LayerConfigManager = /*#__PURE__*/function () {
   }, {
     key: "copyLayer",
     value: function copyLayer(name) {
+      var withExtra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
       if (name instanceof _LayerConfig.default) {
         name = name.getName();
       }
 
       var l = this.getLayer(name, true);
-      return l.clone();
+      return l.clone(withExtra);
     }
     /**
      * Update a LayerConfig by its name

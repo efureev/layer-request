@@ -118,7 +118,9 @@ describe('create request by default', () => {
 
     assert.strictEqual(5, r.manager.list().length)
     assert.strictEqual(1, layerModule1.interceptors.response.length)
+
     console.log(`layerModule1.getExtra()`, layerModule1.getExtra())
+
     assert.strictEqual(true, layerModule1.getExtra().store === undefined)
 
     r.manager.addLayer((cm) => cm.copyLayer('/api'), 'front')
@@ -150,6 +152,7 @@ describe('create request by default', () => {
     const axiosRequest1 = layerRequest.useConfig(layoutApi)
 
     assert.strictEqual(true, isObject(layerRequest.selectedConfig.getExtra()))
+
     assert.deepEqual({ test1: 'zzz', test3: undefined }, layerRequest.selectedConfig.getExtra())
 
     const axiosRequest2 = layerRequest.useConfig(layoutApi, {

@@ -94,23 +94,12 @@ var LayerRequest = /*#__PURE__*/function () {
       }
 
       var currentLayer = this.manager.getLayer(layer, true);
-      this.selectedConfig = currentLayer.clone();
+      this.selectedConfig = currentLayer.clone(true);
       this.selectedConfig.setName(currentLayer.getName());
-      this.selectedConfig.setExtra(_objectSpread(_objectSpread({}, currentLayer.getExtra()), (0, _mu.isObject)(extra) ? extra : {}));
+      this.selectedConfig.setExtra(extra);
       this.builder(this);
       this.applyInterceptors(this.selectedConfig.interceptors);
       return this.axiosInstances.axios;
-    }
-    /**
-     * @deprecated
-     * @use `useConfig`
-     */
-
-  }, {
-    key: "build",
-    value: function build(layer) {
-      var extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : o();
-      return this.useConfig(layer, extra);
     }
   }, {
     key: "reset",
