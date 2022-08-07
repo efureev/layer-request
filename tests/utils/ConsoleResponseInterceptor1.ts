@@ -1,10 +1,11 @@
 import { AxiosResponse } from 'axios'
-import LayerConfig, { ExtraProperties } from '../../src/LayerConfig'
+import LayerConfig, { ExtraProperties, InterceptorSuccessParam } from '../../src/LayerConfig'
 
-const ConsoleResponseInterceptor1 = (options: LayerConfig, extra: ExtraProperties) => (response: AxiosResponse): AxiosResponse => {
-  console.log('run ConsoleResponseInterceptor 1')
+const ConsoleResponseInterceptor1 = (options: LayerConfig, extra: ExtraProperties): InterceptorSuccessParam<AxiosResponse> =>
+  (response: AxiosResponse): AxiosResponse => {
+    console.log('run ConsoleResponseInterceptor 1')
 
-  return response
-}
+    return response
+  }
 
 export default ConsoleResponseInterceptor1

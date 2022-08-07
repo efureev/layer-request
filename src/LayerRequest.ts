@@ -75,9 +75,10 @@ export default class LayerRequest {
     this.selectedConfig = currentLayer.clone()
     this.selectedConfig.setName(currentLayer.getName())
 
-    if (isObject(extra)) {
-      this.selectedConfig.setExtra(currentLayer.getExtra())
-    }
+    this.selectedConfig.setExtra({
+      ...currentLayer.getExtra(),
+      ...(isObject(extra) ? extra : {}),
+    })
 
     this.builder(this)
 

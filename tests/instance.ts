@@ -133,4 +133,36 @@ describe('create request by default', () => {
     assert.strictEqual('/api/admin', r.manager.getLayer('/api')?.axiosRequestConfig.baseURL)
   })
 
+  it('merge extras', () => {
+    globalLayerConfigManager.reset()
+    const layerRequest = new LayerRequest()
+
+    const layoutApi = globalLayerConfigManager
+      .addLayer((cm) =>
+        cm.createLayer({
+          axiosRequestConfig: { baseURL: '/api' },
+          extra: {
+            test1: 'zzz',
+            test3: undefined,
+          },
+        }))
+
+    const axiosRequest1 = layerRequest.useConfig(layoutApi)
+
+    assert.strictEqual(true, isObject(layerRequest.selectedConfig.getExtra()))
+    assert.deepEqual({ test1: 'zzz', test3: undefined }, layerRequest.selectedConfig.getExtra())
+
+    const axiosRequest2 = layerRequest.useConfig(layoutApi, {
+      test1: 'aaaa',
+      test2: 'Yahhoooo',
+    })
+
+    assert.strictEqual(true, isObject(layerRequest.selectedConfig.getExtra()))
+    assert.strictEqual('aaaa', layerRequest.selectedConfig.getExtra('test1'))
+    assert.deepEqual({
+      test1: 'aaaa',
+      test2: 'Yahhoooo',
+      test3: undefined,
+    }, layerRequest.selectedConfig.getExtra())
+  })
 })

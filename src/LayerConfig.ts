@@ -9,12 +9,12 @@ function buildBaseAxiosConfig(): AxiosRequestConfig {
   }
 }
 
-export type InterceptorSuccessParam<T> = (value: T) => T | Promise<T>
+export type InterceptorSuccessParam<T, R = T> = (value: T) => R | Promise<R>
 export type InterceptorErrorParam = ((error: any) => any) | undefined
-export type InterceptorNormal<T> = [InterceptorSuccessParam<T>, InterceptorErrorParam] // | [InterceptorSuccessParam<T>]
-export type InterceptorType<T> = InterceptorSuccessParam<T> | InterceptorNormal<T>
+export type InterceptorNormal<T, R = T> = [InterceptorSuccessParam<T, R>, InterceptorErrorParam]
+export type InterceptorType<T, R = T> = InterceptorSuccessParam<T, R> | InterceptorNormal<T, R>
 
-export type InterceptorFn<T> = (layer: LayerConfig, extra: ExtraProperties) => InterceptorType<T>
+export type InterceptorFn<T, R = T> = (layer: LayerConfig, extra: ExtraProperties) => InterceptorType<T, R>
 
 export interface ConfigLayerInterceptors {
   request: InterceptorFn<AxiosRequestConfig>[]
@@ -23,7 +23,7 @@ export interface ConfigLayerInterceptors {
 
 export interface ConfigLayerConstructor {
   axiosRequestConfig: AxiosRequestConfig
-  interceptors: Partial<ConfigLayerInterceptors>
+  interceptors?: Partial<ConfigLayerInterceptors>
   from?: string
   extra?: ExtraProperties
 }

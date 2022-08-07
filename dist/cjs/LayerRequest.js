@@ -96,11 +96,7 @@ var LayerRequest = /*#__PURE__*/function () {
       var currentLayer = this.manager.getLayer(layer, true);
       this.selectedConfig = currentLayer.clone();
       this.selectedConfig.setName(currentLayer.getName());
-
-      if ((0, _mu.isObject)(extra)) {
-        this.selectedConfig.setExtra(currentLayer.getExtra());
-      }
-
+      this.selectedConfig.setExtra(_objectSpread(_objectSpread({}, currentLayer.getExtra()), (0, _mu.isObject)(extra) ? extra : {}));
       this.builder(this);
       this.applyInterceptors(this.selectedConfig.interceptors);
       return this.axiosInstances.axios;

@@ -45,11 +45,9 @@ export default class LayerRequest {
     const currentLayer = this.manager.getLayer(layer, true);
     this.selectedConfig = currentLayer.clone();
     this.selectedConfig.setName(currentLayer.getName());
-
-    if (isObject(extra)) {
-      this.selectedConfig.setExtra(currentLayer.getExtra());
-    }
-
+    this.selectedConfig.setExtra({ ...currentLayer.getExtra(),
+      ...(isObject(extra) ? extra : {})
+    });
     this.builder(this);
     this.applyInterceptors(this.selectedConfig.interceptors);
     return this.axiosInstances.axios;

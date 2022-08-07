@@ -1,17 +1,17 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import type { Recordable } from './global';
-export declare type InterceptorSuccessParam<T> = (value: T) => T | Promise<T>;
+export declare type InterceptorSuccessParam<T, R = T> = (value: T) => R | Promise<R>;
 export declare type InterceptorErrorParam = ((error: any) => any) | undefined;
-export declare type InterceptorNormal<T> = [InterceptorSuccessParam<T>, InterceptorErrorParam];
-export declare type InterceptorType<T> = InterceptorSuccessParam<T> | InterceptorNormal<T>;
-export declare type InterceptorFn<T> = (layer: LayerConfig, extra: ExtraProperties) => InterceptorType<T>;
+export declare type InterceptorNormal<T, R = T> = [InterceptorSuccessParam<T, R>, InterceptorErrorParam];
+export declare type InterceptorType<T, R = T> = InterceptorSuccessParam<T, R> | InterceptorNormal<T, R>;
+export declare type InterceptorFn<T, R = T> = (layer: LayerConfig, extra: ExtraProperties) => InterceptorType<T, R>;
 export interface ConfigLayerInterceptors {
     request: InterceptorFn<AxiosRequestConfig>[];
     response: InterceptorFn<AxiosResponse>[];
 }
 export interface ConfigLayerConstructor {
     axiosRequestConfig: AxiosRequestConfig;
-    interceptors: Partial<ConfigLayerInterceptors>;
+    interceptors?: Partial<ConfigLayerInterceptors>;
     from?: string;
     extra?: ExtraProperties;
 }
