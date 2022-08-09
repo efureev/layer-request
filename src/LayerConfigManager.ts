@@ -68,7 +68,7 @@ export class LayerConfigManager {
     fromLayer: LayerConfigStringable,
     fn: CopyLayerConfigFn,
     newLayer?: string,
-    withExtra: boolean = false,
+    withExtra: boolean = false
   ): LayerConfig {
     const copy = this.copyLayerAndSetup(fromLayer, fn, withExtra)
 

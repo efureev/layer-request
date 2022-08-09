@@ -88,7 +88,7 @@ var LayerConfigManager = /*#__PURE__*/function () {
     key: "addCopyFrom",
     value: function addCopyFrom(fromLayer, fn, newLayer) {
       var withExtra = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-      var copy = this.copyLayerAndSetup(fromLayer, fn);
+      var copy = this.copyLayerAndSetup(fromLayer, fn, withExtra);
       return this.addLayer(copy, newLayer);
     }
     /**

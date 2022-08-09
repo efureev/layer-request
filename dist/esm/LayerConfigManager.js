@@ -56,7 +56,7 @@ export class LayerConfigManager {
 
 
   addCopyFrom(fromLayer, fn, newLayer, withExtra = false) {
-    const copy = this.copyLayerAndSetup(fromLayer, fn);
+    const copy = this.copyLayerAndSetup(fromLayer, fn, withExtra);
     return this.addLayer(copy, newLayer);
   }
   /**
