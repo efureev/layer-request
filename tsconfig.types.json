@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "dist/types",
     "declaration": true,
     "declarationMap": true,
     "isolatedModules": false,
@@ -10,6 +10,6 @@
     "emitDeclarationOnly": true
   },
   "exclude": [
-    "test/**/*.ts"
+    "tests/**/*.ts"
   ]
 }

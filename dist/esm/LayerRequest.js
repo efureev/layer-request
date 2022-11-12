@@ -1,9 +1,7 @@
 import axios from 'axios';
-import { isFunction } from '@feugene/mu';
+import isFunction from '@feugene/mu/is/isFunction';
 import layerConfigManager from './LayerConfigManager';
-
 const o = () => Object.create(null);
-
 const buildAxios = (axiosRequestConfig = o()) => {
   // to cancel the request:
   // controller.abort()
@@ -17,31 +15,24 @@ const buildAxios = (axiosRequestConfig = o()) => {
     axios: a
   };
 };
-
 const defaultBuilder = instance => {
   instance.setAxiosInstances(buildAxios(instance.selectedConfig?.axiosRequestConfig));
 };
-
 export default class LayerRequest {
   axiosInstances = o();
-
   constructor(manager = layerConfigManager, extra = o()) {
     this.manager = manager;
     this.extra = extra;
     this.builder = defaultBuilder;
   }
-
   useConfig(layer, extra = o()) {
     if (!layer) {
       const layerName = this.manager.list().shift();
-
       if (!layerName) {
         throw Error('Missing name of a LayerConfig');
       }
-
       layer = layerName;
     }
-
     const currentLayer = this.manager.getLayer(layer, true);
     this.selectedConfig = currentLayer.clone(true);
     this.selectedConfig.setName(currentLayer.getName());
@@ -50,7 +41,6 @@ export default class LayerRequest {
     this.applyInterceptors(this.selectedConfig.interceptors);
     return this.axiosInstances.axios;
   }
-
   reset() {
     this.selectedConfig = undefined;
     this.builder = defaultBuilder;
@@ -58,63 +48,49 @@ export default class LayerRequest {
     this.axiosInstances.cancelController = undefined;
     return this;
   }
-
   normalizeInterceptors(callback) {
     const cb = callback(this.selectedConfig, this.extra);
     let successCb;
     let errorCb;
-
     if (Array.isArray(cb) && cb.length > 1) {
       successCb = cb[0];
       errorCb = isFunction(cb[1]) ? cb[1] : undefined; //(error) => Promise.reject(error)
-
       return [successCb, errorCb];
     }
-
     return [cb, undefined];
   }
-
   registerInterceptors(target, ...source) {
     source.forEach(callback => {
       if (!isFunction(callback)) {
         return;
       }
-
       target.use(...this.normalizeInterceptors(callback));
     });
   }
-
   applyInterceptors(interceptors) {
     if (!this.selectedConfig || !this.axiosInstances.axios) {
       throw Error('To handle request you should choose a LayerConfig with `useConfig`!');
     }
-
     interceptors.request && this.registerInterceptors(this.axiosInstances.axios.interceptors.request, ...interceptors.request);
     interceptors.response && this.registerInterceptors(this.axiosInstances.axios.interceptors.response, ...interceptors.response);
   }
-
   setAxiosInstances(instances) {
     if (!instances.axios) {
       throw Error('You should create Axios instance');
-    } // @ts-ignore
-
-
+    }
+    // @ts-ignore
     instances.axios.$layerRequest = this;
     this.axiosInstances = instances;
   }
-
   getAxios() {
     return this.axiosInstances.axios;
   }
-
   getCancel() {
     return this.axiosInstances.cancelController;
   }
-
   abort(reason) {
     this.axiosInstances.cancelController && this.axiosInstances.cancelController.abort(reason);
   }
-
 }
 export function buildLayerRequest(extra = o(), manager) {
   return new LayerRequest(manager, extra);

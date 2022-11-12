@@ -1,7 +1,6 @@
 import type { AxiosInstance, AxiosInterceptorManager, AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
-
-import { isFunction, isObject } from '@feugene/mu'
+import isFunction from '@feugene/mu/is/isFunction'
 import type { LayerConfigManager } from './LayerConfigManager'
 import layerConfigManager from './LayerConfigManager'
 import type {
@@ -121,15 +120,15 @@ export default class LayerRequest {
       throw Error('To handle request you should choose a LayerConfig with `useConfig`!')
     }
     interceptors.request &&
-      this.registerInterceptors<AxiosRequestConfig>(
-        this.axiosInstances.axios.interceptors.request,
-        ...interceptors.request
-      )
+    this.registerInterceptors<AxiosRequestConfig>(
+      this.axiosInstances.axios.interceptors.request,
+      ...interceptors.request,
+    )
     interceptors.response &&
-      this.registerInterceptors<AxiosResponse>(
-        this.axiosInstances.axios.interceptors.response,
-        ...interceptors.response
-      )
+    this.registerInterceptors<AxiosResponse>(
+      this.axiosInstances.axios.interceptors.response,
+      ...interceptors.response,
+    )
   }
 
   public setAxiosInstances(instances: AxiosInstances) {

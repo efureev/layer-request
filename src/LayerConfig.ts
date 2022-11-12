@@ -1,4 +1,5 @@
 import { clone, isEmpty, isObject, merge } from '@feugene/mu'
+
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import type { Recordable } from './global'
 
@@ -54,7 +55,7 @@ export class LayerConfig {
         request: [],
         response: [],
       },
-      <ConfigLayerInterceptors>properties?.interceptors
+      <ConfigLayerInterceptors>properties?.interceptors,
     )
 
     if (properties?.extra) {

@@ -5,11 +5,11 @@
     // Specify module code generation: 'commonjs', 'amd', 'system', 'umd' or 'es2015'.
     "module": "commonjs",
     "lib": [
-      "es6",
+      "esnext",
       "dom"
     ],
     /* Redirect output structure to the directory. */
-    "outDir": "dist/types",
+    //    "outDir": "dist/types",
     /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "rootDir": "src",
     /* Generates corresponding '.d.ts' file. */
@@ -17,7 +17,7 @@
     "declarationMap": true,
     "emitDeclarationOnly": true,
     // Search under node_modules for non-relative imports.
-    //    "moduleResolution": "node",
+        "moduleResolution": "node",
     // Process & infer types from .js files.
     //    "allowJs": true,
     "pretty": true,
@@ -32,8 +32,7 @@
     //    "resolveJsonModule": true
     "types": [
       "axios",
-      "node",
-      "@feugene/mu"
+      "node"
     ]
   },
   "include": [

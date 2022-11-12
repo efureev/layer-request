@@ -4,66 +4,48 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = exports.LayerConfig = void 0;
-
 var _mu = require("@feugene/mu");
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function buildBaseAxiosConfig() {
   return {
     baseURL: "/",
     headers: {}
   };
 }
-
 var o = function o() {
   return Object.create(null);
 };
-
 var LayerConfig = /*#__PURE__*/function () {
   function LayerConfig(properties) {
     _classCallCheck(this, LayerConfig);
-
     _defineProperty(this, "axiosRequestConfig", {});
-
     _defineProperty(this, "extra", o());
-
     _defineProperty(this, "interceptors", {
       request: [],
       response: []
     });
-
     this.axiosRequestConfig = (properties === null || properties === void 0 ? void 0 : properties.axiosRequestConfig) || buildBaseAxiosConfig();
     this.interceptors = (0, _mu.merge)({
       request: [],
       response: []
     }, properties === null || properties === void 0 ? void 0 : properties.interceptors);
-
     if (properties !== null && properties !== void 0 && properties.extra) {
       this.setExtra(properties === null || properties === void 0 ? void 0 : properties.extra);
     }
   }
-
   _createClass(LayerConfig, [{
     key: "clone",
     value: function clone() {
       var withExtra = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       var l = new LayerConfig((0, _mu.clone)(this.toConfigObject()));
-
       if (withExtra) {
         l.setExtra(this.getExtra());
       }
-
       return l;
     }
   }, {
@@ -78,10 +60,8 @@ var LayerConfig = /*#__PURE__*/function () {
         if ((0, _mu.isEmpty)(this.axiosRequestConfig.baseURL)) {
           throw Error('You should add `name` to your layer or config must contains `baseURL` attribute!');
         }
-
         name = this.axiosRequestConfig.baseURL;
       }
-
       this.name = name;
     }
   }, {
@@ -106,16 +86,13 @@ var LayerConfig = /*#__PURE__*/function () {
         e[data] = value;
         data = e;
       }
-
       if ((0, _mu.isObject)(data)) {
         this.extra = _objectSpread(_objectSpread({}, this.extra), data);
       }
     }
   }]);
-
   return LayerConfig;
 }();
-
 exports.LayerConfig = LayerConfig;
 var _default = LayerConfig;
 exports.default = _default;

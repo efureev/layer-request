@@ -1,6 +1,6 @@
 {
   "name": "@feugene/layer-request",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "Request with a config layers",
   "keywords": [
     "request"
@@ -9,7 +9,7 @@
   "homepage": "https://github.com/efureev/layer-request",
   "scripts": {
     "clean": "rimraf dist",
-    "declarations": "tsc -p tsconfig.json",
+    "declarations": "tsc -p tsconfig.types.json",
     "build:esm": "cross-env BABEL_ENV=esmUnbundled babel src --extensions '.ts' --out-dir 'dist/esm' --source-maps",
     "build:cjs": "cross-env BABEL_ENV=cjs babel src --extensions '.ts' --out-dir 'dist/cjs' --source-maps",
     "build:bundles": "cross-env BABEL_ENV=esmBundled rollup -c",
@@ -19,17 +19,14 @@
     "lint": "prettier --config ./.prettierrc --write src/*.ts src/**/*.ts",
     "prepare": "husky install"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "browser": "dist/browser/layer-request.min.js",
-  "types": "dist/types/index.d.ts",
   "files": [
     "src",
     "dist"
   ],
   "exports": {
-    "require": "./dist/cjs/index.js",
-    "import": "./dist/esm/index.js"
+    "types": "./dist/types/index.d.ts",
+    "import": "./dist/esm/index.js",
+    "require": "./dist/cjs/index.js"
   },
   "engines": {
     "node": ">= 16"
@@ -53,7 +50,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@feugene/mu": "^4.0.7",
+    "@feugene/mu": "^4.1.2",
     "axios": "^0.27.2"
   },
   "nyc": {
