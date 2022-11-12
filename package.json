@@ -1,6 +1,6 @@
 {
   "name": "@feugene/layer-request",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Request with a config layers",
   "keywords": [
     "request"
@@ -55,5 +55,12 @@
     "last 2 versions",
     "not ie 11",
     "not op_mini all"
-  ]
+  ],
+  "typesVersions": {
+    ">=4.2": {
+      "*": [
+        "dist/types/*"
+      ]
+    }
+  }
 }
