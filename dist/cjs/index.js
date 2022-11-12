@@ -1,68 +1,30 @@
 "use strict";
-
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var _exportNames = {
-  globalLayerConfigManager: true,
-  LayerConfig: true,
-  LayerRequest: true
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
-Object.defineProperty(exports, "LayerConfig", {
-  enumerable: true,
-  get: function get() {
-    return _LayerConfig.default;
-  }
-});
-Object.defineProperty(exports, "LayerRequest", {
-  enumerable: true,
-  get: function get() {
-    return _LayerRequest.default;
-  }
-});
-Object.defineProperty(exports, "globalLayerConfigManager", {
-  enumerable: true,
-  get: function get() {
-    return _LayerConfigManager.default;
-  }
-});
-var _LayerConfigManager = _interopRequireWildcard(require("./LayerConfigManager"));
-Object.keys(_LayerConfigManager).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  if (key in exports && exports[key] === _LayerConfigManager[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _LayerConfigManager[key];
-    }
-  });
-});
-var _LayerConfig = _interopRequireWildcard(require("./LayerConfig"));
-Object.keys(_LayerConfig).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  if (key in exports && exports[key] === _LayerConfig[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _LayerConfig[key];
-    }
-  });
-});
-var _LayerRequest = _interopRequireWildcard(require("./LayerRequest"));
-Object.keys(_LayerRequest).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  if (key in exports && exports[key] === _LayerRequest[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _LayerRequest[key];
-    }
-  });
-});
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.globalLayerConfigManager = exports.LayerRequest = exports.LayerConfig = void 0;
+const LayerConfigManager_1 = __importDefault(require("./LayerConfigManager"));
+exports.globalLayerConfigManager = LayerConfigManager_1.default;
+const LayerConfig_1 = __importDefault(require("./LayerConfig"));
+exports.LayerConfig = LayerConfig_1.default;
+const LayerRequest_1 = __importDefault(require("./LayerRequest"));
+exports.LayerRequest = LayerRequest_1.default;
+__exportStar(require("./LayerConfig"), exports);
+__exportStar(require("./LayerConfigManager"), exports);
+__exportStar(require("./LayerRequest"), exports);
 //# sourceMappingURL=index.js.map

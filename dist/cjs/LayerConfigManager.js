@@ -1,129 +1,89 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.LayerConfigManager = void 0;
-var _mu = require("@feugene/mu");
-var _LayerConfig = _interopRequireDefault(require("./LayerConfig"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-var layers = new Map();
-var LayerConfigManager = /*#__PURE__*/function () {
-  function LayerConfigManager() {
-    _classCallCheck(this, LayerConfigManager);
-  }
-  _createClass(LayerConfigManager, [{
-    key: "addLayer",
-    value: function addLayer(configValue, name) {
-      if ((0, _mu.isFunction)(configValue)) {
-        return this.addLayer(configValue(this), name);
-      }
-      if (!(0, _mu.isObject)(configValue)) {
-        throw Error('Invalid type of config!');
-      }
-      if (!(configValue instanceof _LayerConfig.default)) {
-        configValue = new _LayerConfig.default({
-          axiosRequestConfig: configValue
-        });
-      }
-      configValue.setName(name);
-      layers.set(configValue.getName(), configValue);
-      return configValue;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LayerConfigManager = void 0;
+const mu_1 = require("@feugene/mu");
+const LayerConfig_1 = __importDefault(require("./LayerConfig"));
+const layers = new Map();
+class LayerConfigManager {
+    addLayer(configValue, name) {
+        if ((0, mu_1.isFunction)(configValue)) {
+            return this.addLayer(configValue(this), name);
+        }
+        if (!(0, mu_1.isObject)(configValue)) {
+            throw Error('Invalid type of config!');
+        }
+        if (!(configValue instanceof LayerConfig_1.default)) {
+            configValue = new LayerConfig_1.default({ axiosRequestConfig: configValue });
+        }
+        configValue.setName(name);
+        layers.set(configValue.getName(), configValue);
+        return configValue;
     }
-  }, {
-    key: "getLayer",
-    value: function getLayer(name) {
-      var throws = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      if (name instanceof _LayerConfig.default) {
-        return name;
-      }
-      var l = layers.get(name);
-      if (l) {
-        return l;
-      }
-      if (throws) {
-        throw Error("Config Layer with name '".concat(name, "' not found"));
-      }
+    getLayer(name, throws = false) {
+        if (name instanceof LayerConfig_1.default) {
+            return name;
+        }
+        const l = layers.get(name);
+        if (l) {
+            return l;
+        }
+        if (throws) {
+            throw Error(`Config Layer with name '${name}' not found`);
+        }
     }
-  }, {
-    key: "list",
-    value: function list() {
-      return Array.from(layers.keys());
+    list() {
+        return Array.from(layers.keys());
     }
-  }, {
-    key: "all",
-    value: function all() {
-      return layers;
+    all() {
+        return layers;
     }
-  }, {
-    key: "reset",
-    value: function reset() {
-      layers.clear();
-      return this;
+    reset() {
+        layers.clear();
+        return this;
     }
-
     /**
      * Add a copy of an existing LayerConfig to the Layer Manager
      */
-  }, {
-    key: "addCopyFrom",
-    value: function addCopyFrom(fromLayer, fn, newLayer) {
-      var withExtra = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-      var copy = this.copyLayerAndSetup(fromLayer, fn, withExtra);
-      return this.addLayer(copy, newLayer);
+    addCopyFrom(fromLayer, fn, newLayer, withExtra = false) {
+        const copy = this.copyLayerAndSetup(fromLayer, fn, withExtra);
+        return this.addLayer(copy, newLayer);
     }
-
     /**
      * Copy a LayerConfig from an existing LayerConfig and set it up
      */
-  }, {
-    key: "copyLayerAndSetup",
-    value: function copyLayerAndSetup(fromLayer, fn) {
-      var withExtra = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      fromLayer = this.getLayer(fromLayer, true);
-      var layerCopy = this.copyLayer(fromLayer, withExtra);
-      layerCopy.from = fromLayer.getName();
-      fn(layerCopy, fromLayer);
-      return layerCopy;
+    copyLayerAndSetup(fromLayer, fn, withExtra = false) {
+        fromLayer = this.getLayer(fromLayer, true);
+        const layerCopy = this.copyLayer(fromLayer, withExtra);
+        layerCopy.from = fromLayer.getName();
+        fn(layerCopy, fromLayer);
+        return layerCopy;
     }
-
     /**
      * Copy a LayerConfig from an existing LayerConfig
      */
-  }, {
-    key: "copyLayer",
-    value: function copyLayer(name) {
-      var withExtra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      if (name instanceof _LayerConfig.default) {
-        name = name.getName();
-      }
-      var l = this.getLayer(name, true);
-      return l.clone(withExtra);
+    copyLayer(name, withExtra = false) {
+        if (name instanceof LayerConfig_1.default) {
+            name = name.getName();
+        }
+        const l = this.getLayer(name, true);
+        return l.clone(withExtra);
     }
-
     /**
      * Update a LayerConfig by its name
      */
-  }, {
-    key: "updateLayer",
-    value: function updateLayer(name, fn) {
-      var l = this.getLayer(name, true);
-      fn(l);
-      return this;
+    updateLayer(name, fn) {
+        const l = this.getLayer(name, true);
+        fn(l);
+        return this;
     }
-  }, {
-    key: "createLayer",
-    value: function createLayer(options) {
-      return new _LayerConfig.default(options);
+    createLayer(options) {
+        return new LayerConfig_1.default(options);
     }
-  }]);
-  return LayerConfigManager;
-}();
+}
 exports.LayerConfigManager = LayerConfigManager;
-var manager = new LayerConfigManager();
-var _default = manager;
-exports.default = _default;
+const manager = new LayerConfigManager();
+exports.default = manager;
 //# sourceMappingURL=LayerConfigManager.js.map

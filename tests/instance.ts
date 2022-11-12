@@ -1,8 +1,8 @@
-import assert from 'assert'
 import { buildLayerRequest, globalLayerConfigManager, LayerConfig, LayerConfigManager, LayerRequest } from '../src'
 import { isEmpty, isObject } from '@feugene/mu'
 import ConsoleResponseInterceptor1 from './utils/ConsoleResponseInterceptor1'
 import ConsoleResponseInterceptor2 from './utils/ConsoleResponseInterceptor2'
+import assert from 'assert'
 
 describe('create request by default', () => {
   describe('checking Request', () => {
@@ -53,6 +53,7 @@ describe('create request by default', () => {
         baseURL: '/api',
       },
       interceptors: {
+        // @ts-ignore
         response: [ConsoleResponseInterceptor1],
       },
     }))
@@ -84,6 +85,7 @@ describe('create request by default', () => {
 
     const layoutSm = r.manager.addCopyFrom(layoutV1, (targetConfig, sourceConfig) => {
       targetConfig.axiosRequestConfig.baseURL += '/sub-module'
+      // @ts-ignore
       targetConfig.interceptors.response.push(ConsoleResponseInterceptor2)
       targetConfig.setExtra(sourceConfig.getExtra())
     })
@@ -151,21 +153,21 @@ describe('create request by default', () => {
 
     const axiosRequest1 = layerRequest.useConfig(layoutApi)
 
-    assert.strictEqual(true, isObject(layerRequest.selectedConfig.getExtra()))
+    assert.strictEqual(true, isObject(layerRequest.selectedConfig?.getExtra()))
 
-    assert.deepEqual({ test1: 'zzz', test3: undefined }, layerRequest.selectedConfig.getExtra())
+    assert.deepEqual({ test1: 'zzz', test3: undefined }, layerRequest.selectedConfig?.getExtra())
 
     const axiosRequest2 = layerRequest.useConfig(layoutApi, {
       test1: 'aaaa',
       test2: 'Yahhoooo',
     })
 
-    assert.strictEqual(true, isObject(layerRequest.selectedConfig.getExtra()))
-    assert.strictEqual('aaaa', layerRequest.selectedConfig.getExtra('test1'))
+    assert.strictEqual(true, isObject(layerRequest.selectedConfig?.getExtra()))
+    assert.strictEqual('aaaa', layerRequest.selectedConfig?.getExtra('test1'))
     assert.deepEqual({
       test1: 'aaaa',
       test2: 'Yahhoooo',
       test3: undefined,
-    }, layerRequest.selectedConfig.getExtra())
+    }, layerRequest.selectedConfig?.getExtra())
   })
 })
