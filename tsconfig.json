@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     // Target latest version of ECMAScript.
-    "module": "esnext",
     "target": "es2020",
     //    "lib": [
     //      "esnext",

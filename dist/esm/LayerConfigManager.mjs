@@ -1,5 +1,5 @@
 import { isFunction, isObject } from '@feugene/mu';
-import LayerConfig from './LayerConfig';
+import LayerConfig from './LayerConfig.mjs';
 const layers = new Map();
 export class LayerConfigManager {
     addLayer(configValue, name) {
@@ -79,4 +79,4 @@ export class LayerConfigManager {
 }
 const manager = new LayerConfigManager();
 export default manager;
-//# sourceMappingURL=LayerConfigManager.js.map
+//# sourceMappingURL=LayerConfigManager.mjs.map

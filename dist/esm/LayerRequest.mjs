@@ -1,6 +1,6 @@
 import axios from 'axios';
 import isFunction from '@feugene/mu/is/isFunction';
-import layerConfigManager from './LayerConfigManager';
+import layerConfigManager from './LayerConfigManager.mjs';
 const o = () => Object.create(null);
 const buildAxios = (axiosRequestConfig = o()) => {
     // to cancel the request:
@@ -97,4 +97,4 @@ export default class LayerRequest {
 export function buildLayerRequest(extra = o(), manager) {
     return new LayerRequest(manager, extra);
 }
-//# sourceMappingURL=LayerRequest.js.map
+//# sourceMappingURL=LayerRequest.mjs.map

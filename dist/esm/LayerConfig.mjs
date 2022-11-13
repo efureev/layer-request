@@ -67,4 +67,4 @@ export class LayerConfig {
     }
 }
 export default LayerConfig;
-//# sourceMappingURL=LayerConfig.js.map
+//# sourceMappingURL=LayerConfig.mjs.map
